@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Financial Accounting Final Prep</title>
+  
+  <!-- Google Fonts: Prompt & Sarabun -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            prompt: ['Prompt', 'sans-serif'],
+            sarabun: ['Sarabun', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      background-image: radial-gradient(#e2e8f0 1.2px, transparent 1.2px);
+      background-size: 20px 20px;
+    }
+    h1, h2, h3, h4, h5, .font-heading {
+      font-family: 'Prompt', sans-serif;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .option-card {
+      transition: all 0.15s ease-out;
+    }
+    .option-card:hover:not(.locked) {
+      transform: translateY(-1px);
+    }
+    .netlify-safe-bottom {
+      padding-bottom: max(5.5rem, env(safe-area-inset-bottom, 24px) + 3.5rem);
+    }
+    .tab-active {
+      border-bottom-width: 3px;
+      border-color: #4f46e5;
+      color: #4f46e5;
+      font-weight: 700;
+    }
+    .tab-inactive {
+      color: #64748b;
+      font-weight: 500;
+    }
+    .tab-inactive:hover {
+      color: #334155;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-brand-200">
+
+  <!-- TOP HEADER -->
+  <header class="sticky top-0 z-40 bg-white/95 border-b border-slate-200 shadow-xs backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+      <!-- Logo & Title -->
+      <div class="flex items-center space-x-2.5 min-w-0 cursor-pointer" onclick="goToHome()">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-indigo-500 to-blue-400 flex items-center justify-center text-white shadow-md shadow-brand-500/20 shrink-0">
+          <i class="fa-solid fa-graduation-cap text-base sm:text-lg"></i>
+        </div>
+        <div class="truncate">
+          <h1 class="text-sm sm:text-base font-bold text-slate-900 leading-tight truncate">Financial Accounting</h1>
+          <p class="text-[11px] sm:text-xs text-brand-600 font-bold truncate">FINAL EXAM PREPARATION</p>
+        </div>
+      </div>
+
+      <!-- Desktop Tabs -->
+      <nav class="hidden md:flex space-x-6 absolute left-1/2 transform -translate-x-1/2 h-full">
+        <button onclick="goToHome()" id="tab-home" class="tab-active h-full px-2 flex items-center text-sm transition font-prompt">
+          <i class="fa-solid fa-house mr-2"></i>หน้าหลัก
+        </button>
+        <button onclick="selectChapter('ch6')" id="tab-ch6" class="tab-inactive h-full px-2 flex items-center text-sm transition font-prompt">
+          บทที่ 6: สินค้าคงเหลือ
+        </button>
+        <button onclick="selectChapter('ch7')" id="tab-ch7" class="tab-inactive h-full px-2 flex items-center text-sm transition font-prompt">
+          บทที่ 7: ภาษีมูลค่าเพิ่ม
+        </button>
+        <button onclick="selectChapter('ch8')" id="tab-ch8" class="tab-inactive h-full px-2 flex items-center text-sm transition font-prompt">
+          บทที่ 8: กิจการผลิต
+        </button>
+      </nav>
+
+      <!-- Quick Status Indicators (Shown during test) -->
+      <div id="headerTestControls" class="hidden flex items-center space-x-2 shrink-0">
+        <div class="flex items-center space-x-1.5 bg-brand-50 border border-brand-200 text-brand-700 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg font-semibold text-xs sm:text-sm">
+          <i class="fa-regular fa-clock text-xs"></i>
+          <span id="timerDisplay">00:00</span>
+        </div>
+        <button onclick="promptSubmitQuiz()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-rose-600 hover:bg-rose-700 active:scale-95 text-white rounded-lg text-xs sm:text-sm font-medium transition shadow-xs">
+          <i class="fa-solid fa-paper-plane text-[10px] sm:text-xs"></i>
+          <span class="hidden sm:inline">ส่งแบบทดสอบ</span>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div id="headerHelpLink" class="flex md:hidden items-center shrink-0">
+        <button onclick="goToHome()" class="text-xs bg-slate-100 text-slate-700 px-3 py-1.5 rounded-lg border border-slate-200 font-medium font-prompt hover:bg-slate-200">
+          <i class="fa-solid fa-bars mr-1"></i> เมนูบทเรียน
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 netlify-safe-bottom">
+
+    <!-- ========================================== -->
+    <!-- VIEW 0: HOME SCREEN (CHAPTER SELECTION) -->
+    <!-- ========================================== -->
+    <section id="viewHome" class="space-y-6 sm:space-y-8 max-w-5xl mx-auto py-4">
+      <div class="text-center space-y-3 mb-8">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-brand-100 text-brand-700 border border-brand-200 uppercase tracking-wider">Comprehensive Test Platform</span>
+        <h2 class="text-2xl sm:text-4xl font-extrabold font-heading text-slate-900 tracking-tight">ระบบติวเข้มและทดสอบไฟนอล</h2>
+        <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">รวบรวมแบบทดสอบวิชาการบัญชีการเงินครบทั้ง 3 บทเรียนสำคัญ รวม 90 ข้อ พร้อมโจทย์ประยุกต์และเฉลยละเอียดแบบไม่ย่อความ</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+        <!-- Ch 6 Card -->
+        <div onclick="selectChapter('ch6')" class="group bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer flex flex-col h-full">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-500 to-sky-400 text-white flex items-center justify-center text-2xl mb-4 shadow-md shadow-blue-500/20 group-hover:scale-105 transition">
+            <i class="fa-solid fa-boxes-packing"></i>
+          </div>
+          <h3 class="font-bold font-heading text-lg text-slate-800 mb-1">บทที่ 6: สินค้าคงเหลือ</h3>
+          <p class="text-xs text-blue-600 font-semibold mb-3">Periodic & Perpetual System</p>
+          <p class="text-sm text-slate-600 flex-1 leading-relaxed">เปรียบเทียบระบบตรวจนับสิ้นงวดและต่อเนื่อง การบันทึกส่วนลด เงื่อนไขค่าขนส่ง และวิเคราะห์งบทดลองเต็มรูปแบบ</p>
+          <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500">
+            <span><i class="fa-solid fa-list-check mr-1 text-slate-400"></i> 30 ข้อคำถาม</span>
+            <span class="text-blue-600 group-hover:underline">เข้าสู่บทเรียน <i class="fa-solid fa-arrow-right ml-1"></i></span>
+          </div>
+        </div>
+
+        <!-- Ch 7 Card -->
+        <div onclick="selectChapter('ch7')" class="group bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer flex flex-col h-full">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-400 text-white flex items-center justify-center text-2xl mb-4 shadow-md shadow-indigo-500/20 group-hover:scale-105 transition">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+          </div>
+          <h3 class="font-bold font-heading text-lg text-slate-800 mb-1">บทที่ 7: ภาษีมูลค่าเพิ่ม</h3>
+          <p class="text-xs text-indigo-600 font-semibold mb-3">Value Added Tax (VAT)</p>
+          <p class="text-sm text-slate-600 flex-1 leading-relaxed">ภาษีซื้อ ภาษีขาย ภาษีรอเรียกเก็บ การปรับปรุงภาษีซื้อต้องห้าม และการปิดบัญชีภาษีประจำเดือนส่งกรมสรรพากร</p>
+          <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500">
+            <span><i class="fa-solid fa-list-check mr-1 text-slate-400"></i> 30 ข้อคำถาม</span>
+            <span class="text-indigo-600 group-hover:underline">เข้าสู่บทเรียน <i class="fa-solid fa-arrow-right ml-1"></i></span>
+          </div>
+        </div>
+
+        <!-- Ch 8 Card -->
+        <div onclick="selectChapter('ch8')" class="group bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer flex flex-col h-full">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-400 text-white flex items-center justify-center text-2xl mb-4 shadow-md shadow-amber-500/20 group-hover:scale-105 transition">
+            <i class="fa-solid fa-industry"></i>
+          </div>
+          <h3 class="font-bold font-heading text-lg text-slate-800 mb-1">บทที่ 8: กิจการผลิต</h3>
+          <p class="text-xs text-amber-600 font-semibold mb-3">Manufacturing Business</p>
+          <p class="text-sm text-slate-600 flex-1 leading-relaxed">การคำนวณวัตถุดิบทางตรง ค่าแรงงานทางตรง ค่าใช้จ่ายการผลิต ต้นทุนสินค้าผลิตเสร็จ และการไหลของต้นทุน</p>
+          <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500">
+            <span><i class="fa-solid fa-list-check mr-1 text-slate-400"></i> 30 ข้อคำถาม</span>
+            <span class="text-amber-600 group-hover:underline">เข้าสู่บทเรียน <i class="fa-solid fa-arrow-right ml-1"></i></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: CHAPTER INTRO & SUMMARY -->
+    <!-- ========================================== -->
+    <section id="viewChapterIntro" class="hidden space-y-6 max-w-5xl mx-auto py-2">
+      <!-- Dynamic Hero Banner with Bright Gradient -->
+      <div id="introHero" class="relative overflow-hidden text-white rounded-3xl p-6 sm:p-10 shadow-lg transition-all">
+        <div class="relative z-10 space-y-3 sm:space-y-4 max-w-2xl">
+          <div id="introTag" class="inline-flex items-center space-x-2 px-3 py-1 bg-white/20 text-white rounded-full text-xs font-semibold uppercase tracking-wider backdrop-blur-xs"></div>
+          <h2 id="introTitle" class="text-2xl sm:text-4xl font-bold font-heading leading-tight drop-shadow-xs"></h2>
+          <p id="introDesc" class="text-white/90 text-sm sm:text-base leading-relaxed drop-shadow-xs"></p>
+
+          <div class="pt-4 flex flex-col sm:flex-row gap-3">
+            <button onclick="startQuiz()" class="w-full sm:w-auto px-8 py-3.5 bg-white text-slate-900 hover:bg-slate-100 active:scale-95 font-bold rounded-xl shadow-md flex items-center justify-center space-x-2 transition text-sm sm:text-base">
+              <i class="fa-solid fa-play text-brand-600"></i>
+              <span>เริ่มทำแบบทดสอบ 30 ข้อ</span>
+            </button>
+            <button onclick="goToHome()" class="w-full sm:w-auto px-6 py-3.5 bg-black/20 hover:bg-black/30 text-white font-medium rounded-xl transition flex items-center justify-center space-x-2 text-sm sm:text-base border border-white/20">
+              <i class="fa-solid fa-arrow-left"></i>
+              <span>กลับเมนูหลัก</span>
+            </button>
+          </div>
+        </div>
+        <div id="introIcon" class="absolute -right-6 -bottom-6 opacity-20 text-9xl text-white pointer-events-none"></div>
+      </div>
+
+      <!-- Settings Panel -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
+        <div>
+          <h3 class="text-sm sm:text-base font-bold text-slate-800 flex items-center space-x-2">
+            <i class="fa-solid fa-sliders text-brand-600"></i>
+            <span>ตั้งค่าแบบทดสอบ</span>
+          </h3>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-slate-600 uppercase tracking-wider block">การแสดงผลเฉลย:</label>
+            <div class="grid grid-cols-1 gap-2.5">
+              <label class="flex items-start space-x-3 p-3.5 border-2 rounded-xl cursor-pointer transition select-none bg-brand-50/50 border-brand-500 hover:bg-brand-50">
+                <input type="radio" name="feedbackMode" value="instant" checked class="w-4 h-4 mt-0.5 text-brand-600 focus:ring-brand-500 border-slate-300">
+                <div class="text-xs sm:text-sm">
+                  <span class="font-bold text-brand-900 flex items-center gap-1.5">
+                    <i class="fa-solid fa-bolt text-amber-500"></i> โหมดเฉลยทันที (แนะนำ)
+                  </span>
+                  <span class="text-slate-600 block text-[11px] mt-0.5">ตอบแล้วแสดงผลถูก-ผิดพร้อมวิธีคิดและคำอธิบายโดยละเอียดทันที</span>
+                </div>
+              </label>
+              <label class="flex items-start space-x-3 p-3.5 border border-slate-200 rounded-xl cursor-pointer transition select-none hover:bg-slate-50">
+                <input type="radio" name="feedbackMode" value="exam" class="w-4 h-4 mt-0.5 text-brand-600 focus:ring-brand-500 border-slate-300">
+                <div class="text-xs sm:text-sm">
+                  <span class="font-bold text-slate-800 flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-signature text-slate-600"></i> โหมดสอบจริง
+                  </span>
+                  <span class="text-slate-500 block text-[11px] mt-0.5">ทำข้อสอบให้ครบทุกข้อก่อน แล้วกดส่งเพื่อดูผลคะแนนรวมทีเดียว</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-slate-600 uppercase tracking-wider block">การจับเวลา:</label>
+            <div class="grid grid-cols-1 gap-2.5">
+              <label class="flex items-center space-x-3 p-3.5 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition select-none">
+                <input type="radio" name="timerMode" value="stopwatch" checked class="w-4 h-4 text-brand-600 focus:ring-brand-500 border-slate-300">
+                <div class="text-xs sm:text-sm">
+                  <span class="font-medium text-slate-800 block">จับเวลาเดินหน้า (ไม่จำกัดเวลา)</span>
+                  <span class="text-slate-500 block text-[11px] mt-0.5">เหมาะสำหรับการอ่านทบทวนและฝึกทำแบบละเอียด</span>
+                </div>
+              </label>
+              <label class="flex items-center space-x-3 p-3.5 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition select-none">
+                <input type="radio" name="timerMode" value="countdown" class="w-4 h-4 text-brand-600 focus:ring-brand-500 border-slate-300">
+                <div class="text-xs sm:text-sm">
+                  <span class="font-medium text-slate-800 block">นับถอยหลัง 45 นาที</span>
+                  <span class="text-slate-500 block text-[11px] mt-0.5">จำลองการสอบจริงและฝึกบริหารเวลา</span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dynamic Summary Content -->
+      <div id="introSummaryContent" class="space-y-5"></div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: QUIZ INTERFACE -->
+    <!-- ========================================== -->
+    <section id="viewQuiz" class="hidden space-y-4">
+      
+      <!-- MOBILE QUICK SCROLL -->
+      <div class="block lg:hidden bg-white border border-slate-200 rounded-xl p-2.5 shadow-xs">
+        <div class="flex items-center justify-between text-xs px-1 mb-2">
+          <span class="font-bold text-slate-700 flex items-center gap-1.5">
+            <i class="fa-solid fa-list-ol text-brand-600"></i> ข้อสอบ 1 - 30:
+          </span>
+          <span id="mobileAnsweredBadge" class="text-[11px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">
+            ตอบ 0/30
+          </span>
+        </div>
+        <div id="mobileChipsContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar py-1 px-0.5 custom-scroll"></div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        
+        <!-- MAIN QUESTION CARD -->
+        <div class="lg:col-span-8 space-y-4 w-full min-w-0">
+          
+          <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-xs flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center space-x-2 truncate max-w-[70%]">
+              <span id="questionSectionBadge" class="px-2.5 py-1 text-xs font-semibold rounded-md bg-brand-100 text-brand-800 truncate block"></span>
+            </div>
+            
+            <div class="flex items-center space-x-2 shrink-0">
+              <button onclick="toggleFlagCurrentQuestion()" id="flagBtn" class="text-xs inline-flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-100 transition">
+                <i class="fa-regular fa-bookmark"></i>
+                <span class="hidden sm:inline">ปักหมุด</span>
+              </button>
+              <button onclick="clearCurrentAnswer()" id="clearBtn" class="text-xs inline-flex items-center space-x-1 text-slate-400 hover:text-slate-600 transition px-2 py-1.5">
+                <i class="fa-solid fa-rotate-left"></i>
+                <span>ล้าง</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Question Content Box -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-7 shadow-xs">
+            <div class="flex items-start justify-between gap-3 mb-4">
+              <div class="flex items-center space-x-2.5">
+                <span id="currentQuestionNumDisplay" class="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-brand-600 text-white font-bold text-xs sm:text-sm shadow-xs shrink-0">
+                  1
+                </span>
+                <span class="text-xs uppercase tracking-wide text-slate-400 font-semibold">ข้อที่ <span id="currentQuestionTotalRatio">1 / 30</span></span>
+              </div>
+              <div id="questionFeedbackTag" class="hidden text-xs font-bold px-2.5 py-1 rounded-full"></div>
+            </div>
+
+            <!-- Case Study Container -->
+            <div id="caseStudyContainer" class="hidden mb-5"></div>
+
+            <!-- Question Text -->
+            <div id="questionText" class="text-slate-800 text-sm sm:text-base md:text-lg font-medium leading-relaxed mb-5 font-prompt break-words"></div>
+
+            <!-- Options Container -->
+            <div id="optionsContainer" class="space-y-2.5"></div>
+
+            <!-- Instant Mode Feedback Box -->
+            <div id="instantFeedbackBox" class="hidden mt-5 pt-4 border-t border-slate-200 space-y-3"></div>
+          </div>
+
+          <!-- BOTTOM CONTROLS (DESKTOP) -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-3 shadow-xs hidden sm:block">
+            <div class="flex items-center justify-between gap-2">
+              <button id="prevBtn" onclick="prevQuestion()" class="px-4 py-2.5 border border-slate-300 bg-white hover:bg-slate-50 active:scale-95 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl transition flex items-center justify-center space-x-1.5">
+                <i class="fa-solid fa-chevron-left text-[10px]"></i>
+                <span>ข้อย้อนหลัง</span>
+              </button>
+              <div class="flex items-center text-xs font-semibold text-slate-500 px-3 py-1 bg-slate-100 rounded-lg">
+                <span id="centerProgressText">ข้อ 1 / 30</span>
+              </div>
+              <button id="nextBtn" onclick="nextQuestion()" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 active:scale-95 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-xs transition flex items-center justify-center space-x-1.5">
+                <span>ข้อถัดไป</span>
+                <i class="fa-solid fa-chevron-right text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDEBAR (DESKTOP PALETTE) -->
+        <div class="hidden lg:block lg:col-span-4 space-y-4">
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs sticky top-20 max-h-[85vh] overflow-y-auto custom-scroll">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+              <h3 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                <i class="fa-solid fa-table-cells text-brand-600"></i>
+                <span>แผนผังข้อสอบ (30 ข้อ)</span>
+              </h3>
+              <span id="answeredSummaryBadge" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">
+                ตอบแล้ว 0/30
+              </span>
+            </div>
+
+            <div id="desktopPaletteContainer" class="space-y-4"></div>
+
+            <div class="mt-6 pt-4 border-t border-slate-100">
+              <button onclick="promptSubmitQuiz()" class="w-full py-3 bg-slate-800 hover:bg-slate-900 active:scale-95 text-white rounded-xl font-medium text-sm transition shadow-xs flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-cloud-arrow-up text-xs"></i>
+                <span>ส่งข้อสอบเพื่อดูผลคะแนน</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: SCORE SUMMARY VIEW -->
+    <!-- ========================================== -->
+    <section id="viewResult" class="hidden max-w-4xl mx-auto space-y-5 py-2">
+      <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xs text-center relative overflow-hidden">
+        <div class="max-w-md mx-auto space-y-4">
+          <div id="resultScoreBadge" class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+            <i class="fa-solid fa-circle-check"></i> ทำแบบทดสอบเรียบร้อยแล้ว
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-bold font-heading text-slate-800">สรุปผลคะแนนของคุณ</h2>
+          
+          <div class="py-4 bg-slate-50 rounded-2xl border border-slate-100">
+            <div class="text-6xl sm:text-7xl font-extrabold font-heading text-brand-600 tracking-tight" id="resultScoreText">
+              0<span class="text-2xl sm:text-3xl text-slate-400 font-normal">/30</span>
+            </div>
+            <p id="resultPercentageText" class="text-slate-600 text-xs sm:text-sm mt-2 font-medium px-4"></p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row justify-center gap-3 pt-3">
+            <button onclick="enterReviewMode()" class="w-full sm:w-auto px-6 py-3 bg-brand-600 hover:bg-brand-700 active:scale-95 text-white rounded-xl text-sm font-semibold transition shadow-xs flex items-center justify-center space-x-2">
+              <i class="fa-solid fa-list-check"></i>
+              <span>ดูเฉลยละเอียดและวิธีคำนวณ</span>
+            </button>
+            <button onclick="goToHome()" class="w-full sm:w-auto px-6 py-3 border border-slate-300 hover:bg-slate-50 active:scale-95 text-slate-700 rounded-xl text-sm font-medium transition flex items-center justify-center space-x-2">
+              <i class="fa-solid fa-house"></i>
+              <span>กลับสู่หน้าหลัก</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: DETAILED REVIEW -->
+    <!-- ========================================== -->
+    <section id="viewReview" class="hidden space-y-5 max-w-5xl mx-auto">
+      <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sticky top-16 z-30 backdrop-blur-md bg-white/95">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold font-heading text-slate-800">เฉลยละเอียด 30 ข้อ</h2>
+          <p class="text-xs text-slate-500">แสดงการคำนวณและคำอธิบายทางบัญชีฉบับสมบูรณ์</p>
+        </div>
+        
+        <div class="flex items-center space-x-2 w-full sm:w-auto justify-between sm:justify-end">
+          <div class="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1 text-xs">
+            <button onclick="filterReview('all')" id="filterAllBtn" class="px-3 py-1 font-medium rounded-md bg-white text-slate-800 shadow-xs">ทั้งหมด (30)</button>
+            <button onclick="filterReview('wrong')" id="filterWrongBtn" class="px-3 py-1 font-medium rounded-md text-slate-600 hover:text-slate-900">เฉพาะข้อที่ผิด</button>
+          </div>
+          <button onclick="goToHome()" class="text-xs px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 text-slate-700 shrink-0 font-medium">
+            เสร็จสิ้น
+          </button>
+        </div>
+      </div>
+
+      <div id="reviewCaseStudyContainer" class="hidden rounded-2xl shadow-xs mb-4"></div>
+      <div id="reviewQuestionsList" class="space-y-4"></div>
+    </section>
+
+  </main>
+
+  <!-- MOBILE BOTTOM STICKY BAR -->
+  <div id="mobileBottomBar" class="hidden sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 border-t border-slate-200 p-2.5 backdrop-blur-md flex items-center justify-between gap-2 shadow-lg">
+    <button onclick="prevQuestion()" id="mobilePrevBtn" class="flex-1 py-2.5 px-3 border border-slate-200 rounded-xl bg-white text-slate-700 text-xs font-semibold flex items-center justify-center space-x-1.5 active:bg-slate-100 min-h-[46px]">
+      <i class="fa-solid fa-chevron-left text-xs"></i>
+      <span>ก่อนหน้า</span>
+    </button>
+
+    <button onclick="toggleMobilePalette(true)" class="px-3 py-2.5 border border-brand-200 bg-brand-50 text-brand-700 rounded-xl text-xs font-bold flex items-center justify-center space-x-1 min-h-[46px]">
+      <i class="fa-solid fa-table-cells"></i>
+      <span id="mobileQuestionTracker">1/30</span>
+    </button>
+
+    <button onclick="nextQuestion()" id="mobileNextBtn" class="flex-1 py-2.5 px-3 bg-brand-600 text-white rounded-xl text-xs font-semibold flex items-center justify-center space-x-1.5 active:bg-brand-700 shadow-xs min-h-[46px]">
+      <span>ถัดไป</span>
+      <i class="fa-solid fa-chevron-right text-xs"></i>
+    </button>
+  </div>
+
+  <!-- MOBILE OFFCANVAS PALETTE -->
+  <div id="mobilePaletteDrawer" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex flex-col justify-end">
+    <div class="bg-white rounded-t-3xl max-h-[85vh] overflow-y-auto p-5 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-table-cells text-brand-600"></i>
+          <h3 class="font-bold text-slate-800 text-base">สารบัญข้อสอบ</h3>
+        </div>
+        <button onclick="toggleMobilePalette(false)" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center text-sm">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div id="mobilePaletteContainer" class="space-y-4"></div>
+
+      <div class="pt-4 border-t border-slate-100">
+        <button onclick="toggleMobilePalette(false); promptSubmitQuiz();" class="w-full py-3 bg-slate-800 text-white rounded-xl text-sm font-semibold flex items-center justify-center space-x-2">
+          <i class="fa-solid fa-paper-plane text-xs"></i>
+          <span>ส่งแบบทดสอบ</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONFIRM SUBMISSION -->
+  <div id="submitModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 text-center">
+      <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h3 class="text-lg font-bold font-heading text-slate-900">ยืนยันการส่งแบบทดสอบ?</h3>
+      <p id="submitModalMessage" class="text-sm text-slate-600 mt-2 leading-relaxed"></p>
+      <div class="mt-6 flex space-x-3">
+        <button onclick="closeSubmitModal()" class="flex-1 py-2.5 border border-slate-300 rounded-xl text-slate-700 text-sm font-medium hover:bg-slate-50 transition">
+          กลับไปทำต่อ
+        </button>
+        <button onclick="finalSubmitQuiz()" class="flex-1 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-semibold transition shadow-xs">
+          ยืนยันส่ง
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // 1. DATA DICTIONARY & QUESTION BANKS
+    // ==========================================
+    
+    const caseStudiesHTML = {
+      case1: `
+        <div class="bg-gradient-to-r from-blue-700 via-indigo-600 to-sky-600 text-white rounded-xl p-4 sm:p-5 shadow-xs mb-4 border border-blue-400/30">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-white/20 mb-3 gap-2">
+            <div>
+              <span class="text-xs bg-white/20 text-white px-2.5 py-0.5 rounded-full font-semibold">กรณีศึกษาที่ 1 (ข้อ 24 - 27)</span>
+              <h4 class="text-base sm:text-lg font-bold font-heading mt-1">บริษัท รุ่งเรือง จำกัด</h4>
+            </div>
+            <span class="self-start sm:self-auto text-xs text-white bg-blue-900/60 px-2.5 py-1 rounded-md font-medium">ระบบสิ้นงวด (Periodic System)</span>
+          </div>
+          <p class="text-xs text-blue-100 mb-3">งบทดลองก่อนรายการปรับปรุงและปิดบัญชี ณ วันที่ 31 ธันวาคม 25X1</p>
+
+          <div class="overflow-x-auto rounded-xl border border-white/20 bg-white text-slate-800">
+            <table class="w-full text-left border-collapse min-w-[340px] text-xs">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                  <th class="py-2 px-3">ชื่อบัญชี</th>
+                  <th class="py-2 px-3 text-right">เดบิต (บาท)</th>
+                  <th class="py-2 px-3 text-right">เครดิต (บาท)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 font-mono text-xs">
+                <tr><td class="py-1 px-3">เงินสด</td><td class="py-1 px-3 text-right">85,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr><td class="py-1 px-3">ลูกหนี้การค้า</td><td class="py-1 px-3 text-right">120,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr class="bg-amber-50/70 font-semibold"><td class="py-1 px-3 text-amber-900">สินค้าคงเหลือต้นงวด</td><td class="py-1 px-3 text-right text-amber-900">60,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr><td class="py-1 px-3">อุปกรณ์สำนักงาน</td><td class="py-1 px-3 text-right">200,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr class="bg-blue-50/60 font-semibold"><td class="py-1 px-3 text-blue-900">ซื้อสินค้า</td><td class="py-1 px-3 text-right text-blue-900">500,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr class="bg-blue-50/60 font-semibold"><td class="py-1 px-3 text-blue-900">ค่าขนส่งเข้า</td><td class="py-1 px-3 text-right text-blue-900">20,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr><td class="py-1 px-3">รับคืนสินค้าและส่วนลด</td><td class="py-1 px-3 text-right">25,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr><td class="py-1 px-3">ส่วนลดจ่าย</td><td class="py-1 px-3 text-right">10,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr><td class="py-1 px-3">ค่าใช้จ่ายในการขาย</td><td class="py-1 px-3 text-right">55,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr><td class="py-1 px-3">ค่าใช้จ่ายในการบริหาร</td><td class="py-1 px-3 text-right">45,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr><td class="py-1 px-3">เจ้าหนี้การค้า</td><td class="py-1 px-3 text-right">-</td><td class="py-1 px-3 text-right">100,000</td></tr>
+                <tr><td class="py-1 px-3">ทุนหุ้นสามัญ</td><td class="py-1 px-3 text-right">-</td><td class="py-1 px-3 text-right">250,000</td></tr>
+                <tr><td class="py-1 px-3">กำไรสะสมต้นงวด</td><td class="py-1 px-3 text-right">-</td><td class="py-1 px-3 text-right">140,000</td></tr>
+                <tr><td class="py-1 px-3">ขายสินค้า</td><td class="py-1 px-3 text-right">-</td><td class="py-1 px-3 text-right">600,000</td></tr>
+                <tr class="bg-blue-50/60 font-semibold"><td class="py-1 px-3 text-blue-900">ส่งคืนสินค้าและส่วนลด</td><td class="py-1 px-3 text-right">-</td><td class="py-1 px-3 text-right text-blue-900">15,000</td></tr>
+                <tr class="bg-blue-50/60 font-semibold"><td class="py-1 px-3 text-blue-900">ส่วนลดรับ</td><td class="py-1 px-3 text-right">-</td><td class="py-1 px-3 text-right text-blue-900">10,000</td></tr>
+                <tr><td class="py-1 px-3">ค่าเสื่อมราคาสะสม–อุปกรณ์</td><td class="py-1 px-3 text-right">-</td><td class="py-1 px-3 text-right">5,000</td></tr>
+                <tr class="bg-slate-200 font-bold border-t-2 border-slate-400">
+                  <td class="py-1.5 px-3">รวม</td>
+                  <td class="py-1.5 px-3 text-right">1,120,000</td>
+                  <td class="py-1.5 px-3 text-right">1,120,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mt-3 p-2.5 bg-white/10 backdrop-blur-xs border border-white/20 rounded-xl text-white text-xs font-medium flex items-start space-x-2">
+            <i class="fa-solid fa-circle-info text-amber-300 mt-0.5 shrink-0"></i>
+            <span><strong>ข้อมูลเพิ่มเติม:</strong> จากการตรวจนับสินค้าคงเหลือ ณ วันที่ 31 ธันวาคม 25X1 พบสินค้าคงเหลือปลายงวดมูลค่า <strong>80,000 บาท</strong></span>
+          </div>
+        </div>
+      `,
+      case2: `
+        <div class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white rounded-xl p-4 sm:p-5 shadow-xs mb-4 border border-emerald-400/30">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-white/20 mb-3 gap-2">
+            <div>
+              <span class="text-xs bg-white/20 text-white px-2.5 py-0.5 rounded-full font-semibold">กรณีศึกษาที่ 2 (ข้อ 28 - 30)</span>
+              <h4 class="text-base sm:text-lg font-bold font-heading mt-1">บริษัท มั่งคั่ง จำกัด</h4>
+            </div>
+            <span class="self-start sm:self-auto text-xs text-white bg-emerald-900/60 px-2.5 py-1 rounded-md font-medium">ระบบต่อเนื่อง (Perpetual System)</span>
+          </div>
+          <p class="text-xs text-emerald-100 mb-3">งบทดลองก่อนรายการปรับปรุงและปิดบัญชี ณ วันที่ 31 ธันวาคม 25X1</p>
+
+          <div class="overflow-x-auto rounded-xl border border-white/20 bg-white text-slate-800">
+            <table class="w-full text-left border-collapse min-w-[340px] text-xs">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                  <th class="py-2 px-3">ชื่อบัญชี</th>
+                  <th class="py-2 px-3 text-right">เดบิต (บาท)</th>
+                  <th class="py-2 px-3 text-right">เครดิต (บาท)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 font-mono text-xs">
+                <tr><td class="py-1 px-3">เงินสด</td><td class="py-1 px-3 text-right">90,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr><td class="py-1 px-3">ลูกหนี้การค้า</td><td class="py-1 px-3 text-right">110,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr class="bg-emerald-50 font-semibold"><td class="py-1 px-3 text-emerald-900">สินค้าคงเหลือ</td><td class="py-1 px-3 text-right text-emerald-900">150,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr><td class="py-1 px-3">อุปกรณ์สำนักงาน</td><td class="py-1 px-3 text-right">250,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr class="bg-teal-50 font-semibold"><td class="py-1 px-3 text-teal-900">ต้นทุนขาย</td><td class="py-1 px-3 text-right text-teal-900">400,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr><td class="py-1 px-3">รับคืนสินค้าและส่วนลด</td><td class="py-1 px-3 text-right">20,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr><td class="py-1 px-3">ส่วนลดจ่าย</td><td class="py-1 px-3 text-right">10,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr><td class="py-1 px-3">ค่าใช้จ่ายในการขาย</td><td class="py-1 px-3 text-right">60,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr><td class="py-1 px-3">ค่าใช้จ่ายในการบริหาร</td><td class="py-1 px-3 text-right">50,000</td><td class="py-1 px-3 text-right">-</td></tr>
+                <tr><td class="py-1 px-3">เจ้าหนี้การค้า</td><td class="py-1 px-3 text-right">-</td><td class="py-1 px-3 text-right">100,000</td></tr>
+                <tr><td class="py-1 px-3">ทุนหุ้นสามัญ</td><td class="py-1 px-3 text-right">-</td><td class="py-1 px-3 text-right">300,000</td></tr>
+                <tr><td class="py-1 px-3">กำไรสะสมต้นงวด</td><td class="py-1 px-3 text-right">-</td><td class="py-1 px-3 text-right">130,000</td></tr>
+                <tr><td class="py-1 px-3">ขายสินค้า</td><td class="py-1 px-3 text-right">-</td><td class="py-1 px-3 text-right">600,000</td></tr>
+                <tr><td class="py-1 px-3">ค่าเสื่อมราคาสะสม–อุปกรณ์</td><td class="py-1 px-3 text-right">-</td><td class="py-1 px-3 text-right">10,000</td></tr>
+                <tr class="bg-slate-200 font-bold border-t-2 border-slate-400">
+                  <td class="py-1.5 px-3">รวม</td>
+                  <td class="py-1.5 px-3 text-right">1,140,000</td>
+                  <td class="py-1.5 px-3 text-right">1,140,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mt-3 p-2.5 bg-white/10 backdrop-blur-xs border border-white/20 rounded-xl text-white text-xs font-medium flex items-start space-x-2">
+            <i class="fa-solid fa-circle-info text-amber-300 mt-0.5 shrink-0"></i>
+            <span><strong>ข้อมูลเพิ่มเติม:</strong> จากการตรวจนับพบสินค้าจริงมูลค่า <strong>142,000 บาท</strong> เกิดจากสินค้าสูญหาย และกิจการรับรู้ในต้นทุนขาย</span>
+          </div>
+        </div>
+      `
+    };
+
+    const database = {
+      ch6: {
+        title: "บทที่ 6: สินค้าคงเหลือ (Inventory)",
+        desc: "การบันทึกบัญชีสินค้าคงเหลือแบบตรวจนับสิ้นงวด (Periodic) และแบบต่อเนื่อง (Perpetual) การบันทึกส่วนลด เงื่อนไขการส่งมอบ และการคำนวณต้นทุนขาย",
+        icon: '<i class="fa-solid fa-boxes-packing"></i>',
+        gradientClass: 'from-blue-600 via-indigo-600 to-sky-500',
+        badgeColor: 'blue',
+        summaryHTML: `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-3.5 font-heading font-bold text-base flex items-center gap-2">
+                <i class="fa-solid fa-scale-balanced text-blue-200"></i> เปรียบเทียบ Periodic vs Perpetual
+              </div>
+              <div class="p-4 text-sm text-slate-700 space-y-3">
+                <div class="border border-slate-200 rounded-xl p-3.5 bg-slate-50/70">
+                  <h4 class="font-bold text-blue-800 mb-1">Periodic System (ระบบตรวจนับเมื่อสิ้นงวด)</h4>
+                  <ul class="list-disc pl-4 space-y-1 text-xs text-slate-600">
+                    <li>เหมาะสำหรับสินค้าที่มีปริมาณมาก ราคาต่อหน่วยต่ำ</li>
+                    <li>ใช้บัญชีเฉพาะ: ซื้อสินค้า, ค่าขนส่งเข้า, ส่งคืนสินค้าและส่วนลด, ส่วนลดรับ</li>
+                    <li><strong>เมื่อเกิดการขาย:</strong> บันทึกเฉพาะรายได้จากการขายเท่านั้น ยังไม่บันทึกต้นทุนขาย</li>
+                    <li>ทราบยอดสินค้าคงเหลือและต้นทุนขายได้จากการตรวจนับ ณ วันสิ้นงวดเท่านั้น</li>
+                  </ul>
+                </div>
+                <div class="border border-slate-200 rounded-xl p-3.5 bg-slate-50/70">
+                  <h4 class="font-bold text-emerald-800 mb-1">Perpetual System (ระบบบันทึกแบบต่อเนื่อง)</h4>
+                  <ul class="list-disc pl-4 space-y-1 text-xs text-slate-600">
+                    <li>เหมาะสำหรับสินค้าที่มีมูลค่าต่อหน่วยสูง หรือต้องการควบคุมสินค้าอย่างใกล้ชิด</li>
+                    <li>ใช้บัญชี "สินค้าคงเหลือ" เพียงบัญชีเดียวในการบันทึกการซื้อ, ค่าขนส่ง, ส่งคืน, ส่วนลด</li>
+                    <li><strong>เมื่อเกิดการขาย:</strong> บันทึก 2 รายการพร้อมกัน (1. รับรู้รายได้ 2. รับรู้ต้นทุนขายและลดสินค้าคงเหลือ)</li>
+                    <li>การตรวจนับสิ้นงวดทำขึ้นเพื่อเปรียบเทียบกับยอดตามบัญชีและปรับปรุงสินค้าสูญหาย</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-5">
+              <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+                <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-3.5 font-heading font-bold text-base flex items-center gap-2">
+                  <i class="fa-solid fa-truck-fast text-indigo-200"></i> เงื่อนไขค่าขนส่ง (FOB Terms)
+                </div>
+                <div class="p-4 text-sm text-slate-700 space-y-2">
+                  <p><strong>FOB Shipping Point:</strong> กรรมสิทธิ์โอนไปยังผู้ซื้อ ณ จุดส่งสินค้า ผู้ซื้อเป็นผู้รับผิดชอบค่าขนส่ง จัดเป็น "ค่าขนส่งเข้า" และรวมเป็นต้นทุนของสินค้า</p>
+                  <p><strong>FOB Destination:</strong> กรรมสิทธิ์โอนไปยังผู้ซื้อเมื่อสินค้าถึงปลายทาง ผู้ขายเป็นผู้รับผิดชอบค่าขนส่ง จัดเป็น "ค่าขนส่งออก" และถือเป็นค่าใช้จ่ายในการขาย</p>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+                <div class="bg-gradient-to-r from-amber-600 to-orange-500 text-white p-3.5 font-heading font-bold text-base flex items-center gap-2">
+                  <i class="fa-solid fa-calculator text-amber-200"></i> สูตรคำนวณต้นทุนขาย (ระบบ Periodic)
+                </div>
+                <div class="p-4 text-sm text-slate-700">
+                  <p class="font-mono text-xs whitespace-pre-line font-bold leading-relaxed text-slate-800">  สินค้าคงเหลือต้นงวด
++ ซื้อสินค้าสุทธิ (ซื้อสินค้า - ส่งคืนสินค้าและส่วนลด - ส่วนลดรับ)
++ ค่าขนส่งเข้า
+- สินค้าคงเหลือปลายงวด
+<span class="text-rose-600 font-bold">= ต้นทุนขาย (Cost of Goods Sold)</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        `,
+        questions: [
+          // 10 New AI Questions
+          { id: 1, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "เงื่อนไขการชำระเงิน 2/10, n/30 มีความหมายตามข้อใด", options: ["ผู้ซื้อต้องวางเงินมัดจำ 2% ภายในระยะเวลา 10 วัน", "หากชำระเงินภายใน 10 วัน จะได้รับส่วนลดเงินสด 2% แต่หากเกินกำหนดต้องชำระเงินเต็มจำนวนภายใน 30 วัน", "ผู้ขายให้ส่วนลดการค้า 2% ทันที ณ วันที่ส่งมอบสินค้า", "ผู้ซื้อต้องจ่ายดอกเบี้ยปรับ 2% หากชำระเงินเกินกำหนด 10 วัน"], correctIndex: 1, answerKey: "ข", explanation: "2/10, n/30 คือเงื่อนไขส่วนลดเงินสด (Cash Discount) หากชำระหนี้ภายใน 10 วันจะได้รับส่วนลด 2% โดยต้องชำระยอดหนี้เต็มจำนวนภายใน 30 วัน" },
+          { id: 2, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ในระบบสินค้าคงเหลือแบบต่อเนื่อง (Perpetual) เมื่อกิจการจ่ายค่าขนส่งเข้าเป็นเงินสด รายการเดบิตต้องบันทึกเข้าบัญชีใด", options: ["ค่าขนส่งเข้า", "ค่าใช้จ่ายในการขาย", "สินค้าคงเหลือ", "ต้นทุนขาย"], correctIndex: 2, answerKey: "ค", explanation: "ในระบบ Perpetual ค่าขนส่งเข้าถือเป็นต้นทุนของสินค้าโดยตรง จึงต้องบันทึกเดบิตบัญชี 'สินค้าคงเหลือ'" },
+          { id: 3, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ในระบบสินค้าคงเหลือแบบสิ้นงวด (Periodic) ข้อใดคือบัญชีที่ใช้บันทึกรายการส่งคืนสินค้าที่มีตำหนิให้แก่ผู้ขาย", options: ["ส่งคืนสินค้าและส่วนลด", "รับคืนสินค้าและส่วนลด", "สินค้าคงเหลือ", "ส่วนลดรับ"], correctIndex: 0, answerKey: "ก", explanation: "ระบบ Periodic จะเปิดบัญชี 'ส่งคืนสินค้าและส่วนลด' (Purchase Returns and Allowances) ซึ่งมียอดปกติทางด้านเครดิต เพื่อปรับลดมูลค่าการซื้อสินค้า" },
+          { id: 4, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ข้อใดอธิบายความแตกต่างในการบันทึกบัญชีเมื่อเกิดรายการขายสินค้า ระหว่างระบบ Periodic และระบบ Perpetual ได้ถูกต้อง", options: ["ระบบ Periodic บันทึกรายได้สูงกว่าระบบ Perpetual เสมอ", "ระบบ Perpetual ไม่ต้องบันทึกยอดเงินสดหรือลูกหนี้การค้า", "ระบบ Perpetual ต้องบันทึกต้นทุนขายและตัดยอดสินค้าคงเหลือทันที ณ วันที่ขาย แต่ระบบ Periodic ไม่บันทึกต้นทุนขาย ณ วันที่ขาย", "ระบบ Periodic บันทึกภาษีขาย แต่ระบบ Perpetual ไม่บันทึกภาษีขาย"], correctIndex: 2, answerKey: "ค", explanation: "เมื่อขายสินค้า ระบบ Perpetual จะบันทึก 2 รายการพร้อมกันเสมอ คือ รับรู้ราคาขาย และรับรู้ต้นทุนขายพร้อมตัดลดสินค้าคงเหลือ ในขณะที่ระบบ Periodic บันทึกเฉพาะราคาขาย" },
+          { id: 5, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ค่าขนส่งสินค้าไปให้ลูกค้า (ค่าขนส่งออก) ตามเงื่อนไข FOB Destination ควรจัดประเภทเป็นรายการใดในงบการเงิน", options: ["ต้นทุนสินค้าคงเหลือ", "ค่าใช้จ่ายในการขาย", "ค่าใช้จ่ายในการบริหาร", "ต้นทุนขาย"], correctIndex: 1, answerKey: "ข", explanation: "ค่าขนส่งออก (Freight-out) ถือเป็นค่าใช้จ่ายในการจัดจำหน่ายสินค้า จึงจัดเป็นค่าใช้จ่ายในการขาย (Selling Expense) ไม่รวมเป็นต้นทุนสินค้า" },
+          { id: 6, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "บริษัท ก จำกัด ซื้อสินค้า 50,000 บาท เงื่อนไข FOB Destination ผู้ใดเป็นผู้รับผิดชอบค่าขนส่ง และผู้ซื้อต้องบันทึกบัญชีค่าขนส่งอย่างไร", options: ["ผู้ซื้อรับผิดชอบ เดบิต ค่าขนส่งเข้า", "ผู้ซื้อรับผิดชอบ เดบิต สินค้าคงเหลือ", "ผู้ขายรับผิดชอบ ผู้ซื้อไม่ต้องบันทึกบัญชีค่าขนส่ง", "ผู้ขายรับผิดชอบ ผู้ซื้อเดบิต ค่าขนส่งออก"], correctIndex: 2, answerKey: "ค", explanation: "เงื่อนไข FOB Destination ผู้ขายเป็นผู้รับผิดชอบค่าใช้จ่ายในการขนส่งสินค้าจนถึงมือผู้ซื้อ ดังนั้นผู้ซื้อจึงไม่ต้องบันทึกรายการค่าขนส่ง" },
+          { id: 7, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "การตรวจนับสินค้าคงเหลือจริง ณ วันสิ้นงวด มีวัตถุประสงค์หลักอย่างไรในระบบสินค้าคงเหลือแบบต่อเนื่อง (Perpetual)", options: ["เพื่อนำยอดคงเหลือไปคำนวณต้นทุนขายประจำงวด", "เพื่อเปรียบเทียบกับยอดคงเหลือตามบัญชี และตรวจสอบผลต่างของสินค้าที่ขาดหายหรือสูญหาย", "เพื่อคำนวณภาษีมูลค่าเพิ่มที่ต้องชำระ", "เพื่อใช้เป็นตัวเลขในการปิดบัญชีซื้อสินค้า"], correctIndex: 1, answerKey: "ข", explanation: "ในระบบ Perpetual บัญชีจะแสดงยอดต้นทุนขายและสินค้าคงเหลืออยู่แล้ว การตรวจนับจริงจึงทำเพื่อสอบทานว่ายอดของจริงตรงกับบัญชีหรือไม่ และปรับปรุงสินค้าสูญหาย" },
+          { id: 8, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ในระบบ Perpetual หากสินค้าคงเหลือตามบัญชีมีมูลค่า 100,000 บาท แต่ตรวจนับจริงได้ 98,000 บาท ผลต่างเกิดจากสินค้าสูญหายและรับรู้ในต้นทุนขาย ข้อใดถูกต้อง", options: ["เดบิต ต้นทุนขาย 2,000 บาท เครดิต สินค้าคงเหลือ 2,000 บาท", "เดบิต สินค้าคงเหลือ 2,000 บาท เครดิต ต้นทุนขาย 2,000 บาท", "เดบิต ขาดทุนจากสินค้าสูญหาย 2,000 บาท เครดิต เงินสด 2,000 บาท", "ไม่ต้องปรับปรุงรายการ เนื่องจากระบบบันทึกต่อเนื่องอยู่แล้ว"], correctIndex: 0, answerKey: "ก", explanation: "สินค้าจริงน้อยกว่ายอดบัญชี 2,000 บาท จึงต้องเครดิตลดสินค้าคงเหลือ 2,000 บาท และเดบิตรับรู้เข้าบัญชีต้นทุนขาย 2,000 บาท" },
+          { id: 9, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "บัญชีใดต่อไปนี้จะไม่ปรากฏในสมุดบัญชีแยกประเภทของกิจการที่ใช้ระบบสินค้าคงเหลือแบบต่อเนื่อง (Perpetual)", options: ["ต้นทุนขาย", "ส่วนลดจ่าย", "ซื้อสินค้า", "สินค้าคงเหลือ"], correctIndex: 2, answerKey: "ค", explanation: "ระบบ Perpetual จะไม่ใช้บัญชี 'ซื้อสินค้า', 'ค่าขนส่งเข้า', 'ส่งคืนสินค้า' หรือ 'ส่วนลดรับ' โดยรายการเหล่านี้จะบันทึกกระทบเข้าบัญชี 'สินค้าคงเหลือ' โดยตรง" },
+          { id: 10, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ข้อใดอธิบายผลกระทบของการให้ส่วนลดการค้า (Trade Discount) ต่อการบันทึกบัญชีได้ถูกต้อง", options: ["ต้องเปิดบัญชีส่วนลดการค้าทางด้านเดบิตเสมอ", "ต้องเปิดบัญชีส่วนลดการค้าทางด้านเครดิตเสมอ", "นำส่วนลดการค้าไปหักออกจากราคาตามป้าย และบันทึกบัญชีด้วยยอดราคาสุทธิทันทีโดยไม่บันทึกบัญชีส่วนลด", "นำส่วนลดการค้าไปบันทึกเป็นค่าใช้จ่ายในการขายเมื่อสิ้นงวด"], correctIndex: 2, answerKey: "ค", explanation: "ส่วนลดการค้า (Trade Discount) จะไม่ปรากฏในสมุดบัญชี แต่จะนำไปคำนวณหักออกจากราคาป้ายทันที และบันทึกซื้อหรือขายด้วยยอดสุทธิ" },
+          
+          // 20 Original Questions
+          { id: 11, section: 2, sectionTitle: "ส่วนที่ 2: การบันทึกบัญชีทั่วไป (โจทย์เดิม)", text: "บริษัท ก จำกัด ใช้ระบบสินค้าคงเหลือแบบสิ้นงวด ซื้อสินค้าเป็นเงินเชื่อ 60,000 บาท และจ่ายค่าขนส่งเข้าเป็นเงินสด 2,000 บาท ข้อใดเป็นการบันทึกบัญชีที่ถูกต้อง", options: ["Dr. สินค้าคงเหลือ 62,000 / Cr. เจ้าหนี้การค้า 60,000 และเงินสด 2,000", "Dr. ซื้อสินค้า 60,000 และค่าขนส่งเข้า 2,000 / Cr. เจ้าหนี้การค้า 60,000 และเงินสด 2,000", "Dr. ต้นทุนขาย 62,000 / Cr. เจ้าหนี้การค้า 60,000 และเงินสด 2,000", "Dr. ซื้อสินค้า 62,000 / Cr. เจ้าหนี้การค้า 60,000 และเงินสด 2,000"], correctIndex: 1, answerKey: "ข", explanation: "ระบบสิ้นงวด (Periodic) จะบันทึกการซื้อสินค้าเข้าบัญชี 'ซื้อสินค้า' และบันทึกค่าขนส่งในการซื้อเข้าบัญชี 'ค่าขนส่งเข้า' แยกต่างหาก ไม่บันทึกเข้าบัญชีสินค้าคงเหลือโดยตรง" },
+          { id: 12, section: 2, sectionTitle: "ส่วนที่ 2: การบันทึกบัญชีทั่วไป (โจทย์เดิม)", text: "บริษัท ข จำกัด ใช้ระบบสินค้าคงเหลือแบบต่อเนื่อง ซื้อสินค้าเป็นเงินเชื่อ 80,000 บาท ต่อมาส่งคืนสินค้า 10,000 บาท ข้อใดเป็นการบันทึกรายการส่งคืนที่ถูกต้อง", options: ["Dr. เจ้าหนี้การค้า 10,000 / Cr. ส่งคืนสินค้าและส่วนลด 10,000", "Dr. ส่งคืนสินค้าและส่วนลด 10,000 / Cr. เจ้าหนี้การค้า 10,000", "Dr. เจ้าหนี้การค้า 10,000 / Cr. สินค้าคงเหลือ 10,000", "Dr. สินค้าคงเหลือ 10,000 / Cr. เจ้าหนี้การค้า 10,000"], correctIndex: 2, answerKey: "ค", explanation: "ระบบต่อเนื่อง (Perpetual) จะไม่มีการเปิดบัญชีส่งคืนสินค้าและส่วนลด แต่จะลดต้นทุนของสินค้าโดยตรงผ่านการเครดิตบัญชี 'สินค้าคงเหลือ' และเดบิตลด 'เจ้าหนี้การค้า'" },
+          { id: 13, section: 2, sectionTitle: "ส่วนที่ 2: การบันทึกบัญชีทั่วไป (โจทย์เดิม)", text: "บริษัท ค จำกัด ใช้ระบบสินค้าคงเหลือแบบสิ้นงวด ซื้อสินค้าเป็นเงินเชื่อ 100,000 บาท เงื่อนไข 2/10, n/30 ต่อมาส่งคืนสินค้า 20,000 บาท และชำระหนี้ภายในระยะเวลาที่ได้รับส่วนลด ข้อใดถูกต้อง", options: ["Dr. เจ้าหนี้การค้า 80,000 / Cr. เงินสด 78,400 และส่วนลดรับ 1,600", "Dr. เจ้าหนี้การค้า 100,000 / Cr. เงินสด 98,000 และส่วนลดรับ 2,000", "Dr. เจ้าหนี้การค้า 80,000 / Cr. เงินสด 80,000", "Dr. เจ้าหนี้การค้า 80,000 / Cr. เงินสด 78,400 และสินค้าคงเหลือ 1,600"], correctIndex: 0, answerKey: "ก", explanation: "หนี้คงเหลือสุทธิหลังส่งคืน = 100,000 - 20,000 = 80,000 บาท | ส่วนลดรับ 2% = 80,000 × 2% = 1,600 บาท | จ่ายเงินสดจริง = 80,000 - 1,600 = 78,400 บาท ระบบ Periodic ใช้บัญชี 'ส่วนลดรับ'" },
+          { id: 14, section: 2, sectionTitle: "ส่วนที่ 2: การบันทึกบัญชีทั่วไป (โจทย์เดิม)", text: "จากสถานการณ์ข้อ 13 หากบริษัท ค จำกัด เปลี่ยนมาใช้ระบบสินค้าคงเหลือแบบต่อเนื่อง ข้อใดเป็นการบันทึกรายการชำระหนี้ที่ถูกต้อง", options: ["Dr. เจ้าหนี้การค้า 80,000 / Cr. เงินสด 78,400 และส่วนลดรับ 1,600", "Dr. เจ้าหนี้การค้า 80,000 / Cr. เงินสด 78,400 และสินค้าคงเหลือ 1,600", "Dr. เจ้าหนี้การค้า 100,000 / Cr. เงินสด 98,000 และสินค้าคงเหลือ 2,000", "Dr. เจ้าหนี้การค้า 80,000 / Cr. เงินสด 80,000"], correctIndex: 1, answerKey: "ข", explanation: "ระบบ Perpetual เมื่อได้รับส่วนลดเงินสดจากการซื้อ จะนำไปลดยอดราคาทุนของสินค้าคงเหลือโดยตรง โดยเครดิตบัญชี 'สินค้าคงเหลือ' 1,600 บาท ไม่ใช้บัญชีส่วนลดรับ" },
+          { id: 15, section: 2, sectionTitle: "ส่วนที่ 2: การบันทึกบัญชีทั่วไป (โจทย์เดิม)", text: "บริษัท ง จำกัด ใช้ระบบสินค้าคงเหลือแบบต่อเนื่อง ขายสินค้าเป็นเงินสด 50,000 บาท โดยสินค้ามีต้นทุน 32,000 บาท ข้อใดถูกต้อง", options: ["Dr. เงินสด 50,000 / Cr. ขายสินค้า 50,000 เพียงรายการเดียว", "Dr. เงินสด 50,000 / Cr. ขายสินค้า 50,000 และ Dr. ซื้อสินค้า 32,000 / Cr. สินค้าคงเหลือ 32,000", "Dr. เงินสด 50,000 / Cr. ขายสินค้า 50,000 และ Dr. ต้นทุนขาย 32,000 / Cr. สินค้าคงเหลือ 32,000", "Dr. เงินสด 50,000 / Cr. ขายสินค้า 50,000 และ Dr. สินค้าคงเหลือ 32,000 / Cr. ต้นทุนขาย 32,000"], correctIndex: 2, answerKey: "ค", explanation: "ระบบ Perpetual ต้องบันทึก 2 รายการพร้อมกัน ณ วันขาย คือ (1) บันทึกรายได้จากการขายในราคาขาย: Dr. เงินสด 50,000 / Cr. ขายสินค้า 50,000 และ (2) บันทึกต้นทุนขายพร้อมตัดยอดสินค้าคงเหลือ: Dr. ต้นทุนขาย 32,000 / Cr. สินค้าคงเหลือ 32,000" },
+          { id: 16, section: 2, sectionTitle: "ส่วนที่ 2: การบันทึกบัญชีทั่วไป (โจทย์เดิม)", text: "บริษัท จ จำกัด ใช้ระบบสินค้าคงเหลือแบบสิ้นงวด ขายสินค้าเป็นเงินเชื่อ 75,000 บาท โดยสินค้ามีต้นทุน 45,000 บาท ข้อใดถูกต้อง", options: ["Dr. ลูกหนี้การค้า 75,000 / Cr. ขายสินค้า 75,000", "Dr. ลูกหนี้การค้า 75,000 / Cr. ขายสินค้า 75,000 และ Dr. ต้นทุนขาย 45,000 / Cr. สินค้าคงเหลือ 45,000", "Dr. ลูกหนี้การค้า 75,000 / Cr. ขายสินค้า 75,000 และ Dr. ซื้อสินค้า 45,000 / Cr. สินค้าคงเหลือ 45,000", "Dr. เงินสด 75,000 / Cr. ขายสินค้า 75,000"], correctIndex: 0, answerKey: "ก", explanation: "ระบบ Periodic จะบันทึกเฉพาะราคาขาย ณ วันที่ขาย (Dr. ลูกหนี้การค้า / Cr. ขายสินค้า) และยังไม่รับรู้ต้นทุนขายในวันที่ขาย โดยจะไปคำนวณต้นทุนขายเมื่อสิ้นงวดบัญชี" },
+          { id: 17, section: 2, sectionTitle: "ส่วนที่ 2: การบันทึกบัญชีทั่วไป (โจทย์เดิม)", text: "บริษัท ฉ จำกัด ใช้ระบบสินค้าคงเหลือแบบต่อเนื่อง ลูกค้าส่งคืนสินค้าที่ซื้อเป็นเงินเชื่อ ราคาขาย 12,000 บาท ต้นทุน 7,000 บาท สินค้าอยู่ในสภาพพร้อมขายต่อ ข้อใดถูกต้อง", options: ["Dr. รับคืนสินค้าและส่วนลด 12,000 / Cr. ลูกหนี้การค้า 12,000 เพียงรายการเดียว", "Dr. รับคืนสินค้าและส่วนลด 12,000 / Cr. ลูกหนี้การค้า 12,000 และ Dr. ต้นทุนขาย 7,000 / Cr. สินค้าคงเหลือ 7,000", "Dr. ลูกหนี้การค้า 12,000 / Cr. รับคืนสินค้าและส่วนลด 12,000 และ Dr. สินค้าคงเหลือ 7,000 / Cr. ต้นทุนขาย 7,000", "Dr. รับคืนสินค้าและส่วนลด 12,000 / Cr. ลูกหนี้การค้า 12,000 และ Dr. สินค้าคงเหลือ 7,000 / Cr. ต้นทุนขาย 7,000"], correctIndex: 3, answerKey: "ง", explanation: "ระบบ Perpetual ต้องบันทึก 2 ด้าน: (1) ลดรายได้และยอดลูกหนี้: Dr. รับคืนสินค้าฯ 12,000 / Cr. ลูกหนี้ฯ 12,000 และ (2) นำต้นทุนสินค้าเข้าสต็อกและลดต้นทุนขาย: Dr. สินค้าคงเหลือ 7,000 / Cr. ต้นทุนขาย 7,000" },
+          { id: 18, section: 2, sectionTitle: "ส่วนที่ 2: การบันทึกบัญชีทั่วไป (โจทย์เดิม)", text: "บริษัท ช จำกัด ใช้ระบบสินค้าคงเหลือแบบสิ้นงวด ขายสินค้าเป็นเงินเชื่อ 90,000 บาท เงื่อนไข 2/10, n/30 ต่อมาลูกค้าส่งคืนสินค้า 10,000 บาท และชำระหนี้ภายในระยะเวลาที่ได้รับส่วนลด ข้อใดเป็นการบันทึกรับชำระหนี้ที่ถูกต้อง", options: ["Dr. เงินสด 78,400 และส่วนลดจ่าย 1,600 / Cr. ลูกหนี้การค้า 80,000", "Dr. เงินสด 88,200 และส่วนลดจ่าย 1,800 / Cr. ลูกหนี้การค้า 90,000", "Dr. เงินสด 78,400 / Cr. ลูกหนี้การค้า 78,400", "Dr. เงินสด 78,400 และสินค้าคงเหลือ 1,600 / Cr. ลูกหนี้การค้า 80,000"], correctIndex: 0, answerKey: "ก", explanation: "ยอดลูกหนี้คงเหลือหลังรับคืน = 90,000 - 10,000 = 80,000 บาท | ส่วนลดจ่าย 2% = 80,000 × 2% = 1,600 บาท | เงินสดที่ได้รับจริง = 78,400 บาท" },
+          { id: 19, section: 2, sectionTitle: "ส่วนที่ 2: การบันทึกบัญชีทั่วไป (โจทย์เดิม)", text: "บริษัท ซ จำกัด ใช้ระบบสินค้าคงเหลือแบบต่อเนื่อง ซื้อสินค้าเป็นเงินเชื่อ 120,000 บาท ภายใต้เงื่อนไข FOB Shipping Point และจ่ายค่าขนส่งเข้าเป็นเงินสด 5,000 บาท ข้อใดถูกต้อง", options: ["Dr. ค่าขนส่งเข้า 5,000 / Cr. เงินสด 5,000", "Dr. ค่าใช้จ่ายในการขาย 5,000 / Cr. เงินสด 5,000", "Dr. สินค้าคงเหลือ 5,000 / Cr. เงินสด 5,000", "Dr. ซื้อสินค้า 5,000 / Cr. เงินสด 5,000"], correctIndex: 2, answerKey: "ค", explanation: "FOB Shipping Point ผู้ซื้อเป็นผู้รับผิดชอบค่าขนส่ง และในระบบ Perpetual ค่าขนส่งเข้าถือเป็นต้นทุนของสินค้าโดยตรง จึงต้องบันทึกเดบิตบัญชี 'สินค้าคงเหลือ'" },
+          { id: 20, section: 2, sectionTitle: "ส่วนที่ 2: การบันทึกบัญชีทั่วไป (โจทย์เดิม)", text: "บริษัท ฌ จำกัด ใช้ระบบสินค้าคงเหลือแบบสิ้นงวด ขายสินค้าเป็นเงินเชื่อ 100,000 บาท ภายใต้เงื่อนไข FOB Destination และกิจการจ่ายค่าขนส่งสินค้าไปให้ลูกค้า 4,000 บาท ข้อใดเป็นการบันทึกค่าขนส่งที่ถูกต้อง", options: ["Dr. ค่าขนส่งเข้า 4,000 / Cr. เงินสด 4,000", "Dr. ค่าขนส่งออก 4,000 / Cr. เงินสด 4,000", "Dr. ซื้อสินค้า 4,000 / Cr. เงินสด 4,000", "Dr. สินค้าคงเหลือ 4,000 / Cr. เงินสด 4,000"], correctIndex: 1, answerKey: "ข", explanation: "FOB Destination ผู้ขายรับผิดชอบค่าขนส่ง ค่าขนส่งในการขายนี้จัดเป็นค่าขนส่งออก (Freight-out) ซึ่งถือเป็นค่าใช้จ่ายในการขาย (Selling expense)" },
+          { id: 21, section: 2, sectionTitle: "ส่วนที่ 2: การบันทึกบัญชีทั่วไป (โจทย์เดิม)", text: "บริษัท ญ จำกัด ใช้ระบบสินค้าคงเหลือแบบต่อเนื่อง ซื้อสินค้าโดยมีราคาตามรายการ 150,000 บาท ผู้ขายให้ส่วนลดการค้า 20% และกิจการซื้อเป็นเงินเชื่อ ข้อใดเป็นการบันทึกบัญชีที่ถูกต้อง", options: ["Dr. สินค้าคงเหลือ 150,000 / Cr. เจ้าหนี้การค้า 150,000", "Dr. สินค้าคงเหลือ 150,000 / Cr. เจ้าหนี้การค้า 120,000 และส่วนลดรับ 30,000", "Dr. ซื้อสินค้า 120,000 / Cr. เจ้าหนี้การค้า 120,000", "Dr. สินค้าคงเหลือ 120,000 / Cr. เจ้าหนี้การค้า 120,000"], correctIndex: 3, answerKey: "ง", explanation: "ส่วนลดการค้า (Trade discount) 20% (30,000 บาท) จะไม่บันทึกในบัญชี แต่จะบันทึกด้วยยอดราคาสุทธิทันที = 150,000 - 30,000 = 120,000 บาท และระบบ Perpetual เดบิต 'สินค้าคงเหลือ'" },
+          { id: 22, section: 2, sectionTitle: "ส่วนที่ 2: การบันทึกบัญชีทั่วไป (โจทย์เดิม)", text: "บริษัท ฎ จำกัด ใช้ระบบสินค้าคงเหลือแบบต่อเนื่อง เมื่อสิ้นงวดพบว่าสินค้าคงเหลือตามบัญชีมีมูลค่า 180,000 บาท แต่ตรวจนับสินค้าจริงพบเพียง 175,000 บาท โดยผลต่างเกิดจากสินค้าสูญหาย และกิจการกำหนดให้รับรู้ผลต่างในต้นทุนขาย ข้อใดถูกต้อง", options: ["Dr. สินค้าคงเหลือ 5,000 / Cr. ต้นทุนขาย 5,000", "Dr. ต้นทุนขาย 5,000 / Cr. สินค้าคงเหลือ 5,000", "Dr. ซื้อสินค้า 5,000 / Cr. สินค้าคงเหลือ 5,000", "ไม่ต้องบันทึก เพราะเป็นระบบสินค้าคงเหลือแบบต่อเนื่อง"], correctIndex: 1, answerKey: "ข", explanation: "สินค้าจริง (175,000 บาท) น้อยกว่ายอดตามบัญชี (180,000 บาท) อยู่ 5,000 บาท จึงต้องปรับลดยอดสินค้าคงเหลือ (Cr. สินค้าคงเหลือ 5,000 บาท) และรับรู้ผลต่างเข้า Dr. ต้นทุนขาย 5,000 บาท" },
+          { id: 23, section: 2, sectionTitle: "ส่วนที่ 2: การบันทึกบัญชีทั่วไป (โจทย์เดิม)", text: "บริษัท ฏ จำกัด ใช้ระบบสินค้าคงเหลือแบบสิ้นงวด เมื่อสิ้นงวดมีข้อมูลดังนี้: สินค้าคงเหลือต้นงวด 40,000 บาท, ซื้อสินค้า 180,000 บาท, ส่งคืนสินค้าและส่วนลด 10,000 บาท, ส่วนลดรับ 5,000 บาท, ค่าขนส่งเข้า 5,000 บาท, สินค้าคงเหลือปลายงวด 50,000 บาท หากกิจการใช้วิธีปิดบัญชีซื้อสินค้าและบัญชีที่เกี่ยวข้องผ่านบัญชีสรุปผลกำไรขาดทุน ข้อใดแสดงจำนวนเงินที่ถูกต้องของรายการปิดบัญชีซื้อสินค้า", options: ["Dr. ซื้อสินค้า 180,000 / Cr. สรุปผลกำไรขาดทุน 180,000", "Dr. ต้นทุนขาย 170,000 / Cr. ซื้อสินค้า 170,000", "Dr. สรุปผลกำไรขาดทุน 180,000 / Cr. ซื้อสินค้า 180,000", "Dr. สินค้าคงเหลือ 180,000 / Cr. ซื้อสินค้า 180,000"], correctIndex: 2, answerKey: "ค", explanation: "บัญชีซื้อสินค้ามียอดคงเหลือปกติทางเดบิต เมื่อต้องการปิดบัญชีผ่านสรุปผลกำไรขาดทุน ต้องเครดิตบัญชีซื้อสินค้า 180,000 บาท และเดบิตบัญชีสรุปผลกำไรขาดทุน 180,000 บาท" },
+          
+          // Case Studies
+          { id: 24, section: 3, sectionTitle: "ส่วนที่ 3: การวิเคราะห์งบทดลอง กรณีศึกษาที่ 1", caseId: "case1", text: "จากงบทดลองข้างต้น บริษัท รุ่งเรือง จำกัด มีต้นทุนสินค้าที่ซื้อเท่าใด", options: ["475,000 บาท", "485,000 บาท", "495,000 บาท", "505,000 บาท"], correctIndex: 2, answerKey: "ค", calculation: "ต้นทุนสินค้าที่ซื้อ = ซื้อสินค้า - ส่งคืนสินค้าและส่วนลด - ส่วนลดรับ + ค่าขนส่งเข้า\n= 500,000 - 15,000 - 10,000 + 20,000\n= 495,000 บาท", explanation: "ต้นทุนสินค้าที่ซื้อคำนวณจาก ซื้อสินค้า (500,000 บาท) หัก ส่งคืนสินค้า (15,000 บาท) หัก ส่วนลดรับ (10,000 บาท) บวก ค่าขนส่งเข้า (20,000 บาท) = 495,000 บาท" },
+          { id: 25, section: 3, sectionTitle: "ส่วนที่ 3: การวิเคราะห์งบทดลอง กรณีศึกษาที่ 1", caseId: "case1", text: "หากบริษัท รุ่งเรือง จำกัด ใช้วิธีปิดบัญชีผ่านบัญชีสรุปผลกำไรขาดทุน ข้อใดเป็นการปิดบัญชีส่วนลดรับที่ถูกต้อง", options: ["Dr. ส่วนลดรับ 10,000 / Cr. สรุปผลกำไรขาดทุน 10,000", "Dr. สรุปผลกำไรขาดทุน 10,000 / Cr. ส่วนลดรับ 10,000", "Dr. สินค้าคงเหลือ 10,000 / Cr. ส่วนลดรับ 10,000", "Dr. ส่วนลดรับ 10,000 / Cr. ซื้อสินค้า 10,000"], correctIndex: 0, answerKey: "ก", explanation: "ส่วนลดรับมียอดคงเหลือปกติทางด้านเครดิต (10,000 บาท) การปิดบัญชีจึงต้องบันทึกด้านเดบิตส่วนลดรับ และเครดิตบัญชีสรุปผลกำไรขาดทุน" },
+          { id: 26, section: 3, sectionTitle: "ส่วนที่ 3: การวิเคราะห์งบทดลอง กรณีศึกษาที่ 1", caseId: "case1", text: "จากงบทดลอง บริษัท รุ่งเรือง จำกัด มีต้นทุนขายเท่าใด", options: ["455,000 บาท", "465,000 บาท", "475,000 บาท", "485,000 บาท"], correctIndex: 2, answerKey: "ค", calculation: "ต้นทุนขายระบบ Periodic = สินค้าคงเหลือต้นงวด + ต้นทุนสินค้าที่ซื้อ - สินค้าคงเหลือปลายงวด\n= 60,000 + 495,000 - 80,000\n= 475,000 บาท", explanation: "ต้นทุนขาย = สินค้าต้นงวด (60,000 บาท) + ต้นทุนสินค้าที่ซื้อ (495,000 บาท) - สินค้าปลายงวด (80,000 บาท) = 475,000 บาท" },
+          { id: 27, section: 3, sectionTitle: "ส่วนที่ 3: การวิเคราะห์งบทดลอง กรณีศึกษาที่ 1", caseId: "case1", text: "เมื่อบริษัท รุ่งเรือง จำกัด ปิดบัญชีสินค้าคงเหลือต้นงวดและรับรู้สินค้าคงเหลือปลายงวดผ่านบัญชีสรุปผลกำไรขาดทุน ข้อใดถูกต้อง", options: ["Dr. สรุปผลกำไรขาดทุน 60,000 / Cr. สินค้าคงเหลือ 60,000 และ Dr. สินค้าคงเหลือ 80,000 / Cr. สรุปผลกำไรขาดทุน 80,000", "Dr. สินค้าคงเหลือ 60,000 / Cr. สรุปผลกำไรขาดทุน 60,000 และ Dr. สรุปผลกำไรขาดทุน 80,000 / Cr. สินค้าคงเหลือ 80,000", "Dr. ต้นทุนขาย 80,000 / Cr. สินค้าคงเหลือ 80,000", "Dr. สินค้าคงเหลือ 20,000 / Cr. ซื้อสินค้า 20,000"], correctIndex: 0, answerKey: "ก", explanation: "ปิดยอดสินค้าต้นงวดโดย Cr. สินค้าคงเหลือ 60,000 บาท เข้า Dr. สรุปผลกำไรขาดทุน 60,000 บาท และรับรู้สินค้าคงเหลือปลายงวดจากการตรวจนับโดย Dr. สินค้าคงเหลือ 80,000 บาท / Cr. สรุปผลกำไรขาดทุน 80,000 บาท" },
+          { id: 28, section: 4, sectionTitle: "ส่วนที่ 4: การวิเคราะห์งบทดลอง กรณีศึกษาที่ 2", caseId: "case2", text: "จากข้อมูลเพิ่มเติม บริษัท มั่งคั่ง จำกัด ควรบันทึกรายการปรับปรุงสินค้าคงเหลืออย่างไร", options: ["Dr. สินค้าคงเหลือ 8,000 / Cr. ต้นทุนขาย 8,000", "Dr. ต้นทุนขาย 8,000 / Cr. สินค้าคงเหลือ 8,000", "Dr. ค่าใช้จ่ายในการขาย 8,000 / Cr. เงินสด 8,000", "Dr. ซื้อสินค้า 8,000 / Cr. สินค้าคงเหลือ 8,000"], correctIndex: 1, answerKey: "ข", explanation: "ยอดสินค้าตามบัญชี = 150,000 บาท นับจริงได้ = 142,000 บาท สินค้าขาดหายไป 8,000 บาท กิจการมีนโยบายรับรู้ในต้นทุนขาย จึงบันทึก Dr. ต้นทุนขาย 8,000 บาท / Cr. สินค้าคงเหลือ 8,000 บาท" },
+          { id: 29, section: 4, sectionTitle: "ส่วนที่ 4: การวิเคราะห์งบทดลอง กรณีศึกษาที่ 2", caseId: "case2", text: "หลังจากบันทึกรายการปรับปรุงตามข้อ 28 บริษัท มั่งคั่ง จำกัด มีต้นทุนขายที่ถูกต้องเท่าใด", options: ["392,000 บาท", "400,000 บาท", "408,000 บาท", "416,000 บาท"], correctIndex: 2, answerKey: "ค", calculation: "ต้นทุนขายของระบบต่อเนื่องที่ถูกต้อง = ต้นทุนขายตามบัญชีก่อนปรับปรุง + ผลต่างสินค้าขาดหาย\n= 400,000 + (150,000 - 142,000)\n= 400,000 + 8,000\n= 408,000 บาท", explanation: "ต้นทุนขายเดิม 400,000 บาท บวกผลต่างสินค้าขาดหายจากการตรวจนับ 8,000 บาท รวมเป็น 408,000 บาท" },
+          { id: 30, section: 4, sectionTitle: "ส่วนที่ 4: การวิเคราะห์งบทดลอง กรณีศึกษาที่ 2", caseId: "case2", text: "เมื่อเปรียบเทียบงบทดลองของบริษัท รุ่งเรือง จำกัด และบริษัท มั่งคั่ง จำกัด ข้อใดอธิบายความแตกต่างของระบบสินค้าคงเหลือทั้งสองระบบได้ถูกต้องที่สุด", options: ["บริษัท รุ่งเรือง จำกัด มีบัญชีซื้อสินค้าและบัญชีที่เกี่ยวข้องกับการซื้อแยกต่างหาก และต้องคำนวณต้นทุนขายเมื่อสิ้นงวด ขณะที่บริษัท มั่งคั่ง จำกัด มีบัญชีต้นทุนขายจากการบันทึกระหว่างงวด", "บริษัท รุ่งเรือง จำกัด ไม่ต้องตรวจนับสินค้าเมื่อสิ้นงวด เพราะใช้ระบบสินค้าคงเหลือแบบสิ้นงวด", "บริษัท มั่งคั่ง จำกัด ไม่ต้องบันทึกบัญชีต้นทุนขาย เนื่องจากบัญชีสินค้าคงเหลือแสดงต้นทุนทั้งหมดแล้ว", "บริษัททั้งสองต้องมีบัญชีซื้อสินค้าและบัญชีส่วนลดรับเหมือนกัน เนื่องจากเป็นกิจการซื้อขายสินค้า"], correctIndex: 0, answerKey: "ก", explanation: "ระบบ Periodic (บ.รุ่งเรือง) แยกบัญชีซื้อ ค่าขนส่งเข้า ส่งคืน ส่วนลดรับ และต้องคำนวณต้นทุนขายปลายงวด ส่วนระบบ Perpetual (บ.มั่งคั่ง) บันทึกปรับสินค้าคงเหลือและต้นทุนขายทันทีทุกครั้งที่มีรายการ" }
+        ]
+      },
+      ch7: {
+        title: "บทที่ 7: ภาษีมูลค่าเพิ่ม (VAT)",
+        desc: "การบันทึกภาษีซื้อ ภาษีขาย ภาษีรอเรียกเก็บ (Undue VAT) กฎหมายภาษีซื้อต้องห้าม และการปิดบัญชีภาษีประจำเดือนส่งสรรพากร",
+        icon: '<i class="fa-solid fa-file-invoice-dollar"></i>',
+        gradientClass: 'from-indigo-600 via-purple-600 to-pink-500',
+        badgeColor: 'indigo',
+        summaryHTML: `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-3.5 font-heading font-bold text-base flex items-center gap-2">
+                <i class="fa-solid fa-file-invoice-dollar text-purple-200"></i> หลักการภาษีมูลค่าเพิ่ม (VAT)
+              </div>
+              <div class="p-4 text-sm text-slate-700 space-y-3">
+                <p><strong>ภาษีขาย (Output Tax):</strong> ภาษีที่กิจการเรียกเก็บจากลูกค้าเมื่อขายสินค้าหรือให้บริการ (หมวดหนี้สิน)</p>
+                <p><strong>ภาษีซื้อ (Input Tax):</strong> ภาษีที่กิจการถูกเรียกเก็บเมื่อซื้อสินค้า บริการ หรือสินทรัพย์มาใช้ในกิจการ (หมวดสินทรัพย์)</p>
+                <div class="bg-indigo-50/70 p-3 rounded-xl text-xs border border-indigo-200 text-indigo-950">
+                  <span class="font-bold text-indigo-900">จุดความรับผิดในการเสียภาษี (Tax Point):</span><br>
+                  • ธุรกิจขายสินค้า: เกิดขึ้นเมื่อ <strong>ส่งมอบสินค้า</strong> หรือโอนกรรมสิทธิ์<br>
+                  • ธุรกิจบริการ: เกิดขึ้นเมื่อ <strong>ได้รับชำระเงิน</strong> (หากออกใบแจ้งหนี้แต่ยังไม่ได้เงิน ให้บันทึกเป็น ภาษีขายยังไม่ถึงกำหนดชำระ)
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-3.5 font-heading font-bold text-base flex items-center gap-2">
+                <i class="fa-solid fa-ban text-rose-200"></i> ภาษีซื้อต้องห้าม & การปิดบัญชี
+              </div>
+              <div class="p-4 text-sm text-slate-700 space-y-3">
+                <p class="text-xs leading-relaxed"><strong>ภาษีซื้อต้องห้าม (Non-creditable):</strong> ภาษีที่ไม่สามารถนำมาขอคืนหรือหักภาษีขายได้ เช่น ค่ารับรองลูกค้า, ภาษีซื้อจากการซื้อรถยนต์นั่งส่วนบุคคล ต้องรวมเป็นต้นทุนของสินทรัพย์หรือค่าใช้จ่ายทันที</p>
+                <div class="border-t border-slate-100 pt-2">
+                  <p class="text-xs font-bold text-slate-800 mb-1">การปิดบัญชีภาษีมูลค่าเพิ่มทุกสิ้นเดือน:</p>
+                  <ul class="list-disc pl-4 space-y-1 text-xs text-slate-600">
+                    <li>ถ้า ภาษีขาย > ภาษีซื้อ = <strong>ภาษีมูลค่าเพิ่มค้างชำระ (VAT Payable)</strong> ต้องนำส่งกรมสรรพากรภายในวันที่ 15 ของเดือนถัดไป</li>
+                    <li>ถ้า ภาษีซื้อ > ภาษีขาย = <strong>ลูกหนี้กรมสรรพากร / ภาษีขอคืน (VAT Receivable)</strong> สามารถขอคืนเป็นเงินสดหรือยกไปเป็นเครดิตเดือนถัดไป</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        `,
+        questions: [
+          // 10 New AI Questions
+          { id: 1, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "กิจการให้บริการทำความสะอาดแก่ลูกค้ามูลค่า 20,000 บาท (ยังไม่รวมภาษีมูลค่าเพิ่ม) แต่ลูกค้ายังไม่ชำระเงิน ภาระภาษีขายของกิจการเกิดขึ้นหรือไม่ในวันที่ให้บริการเสร็จ", options: ["เกิดขึ้นแล้ว ต้องนำส่งภาษีขายทันที", "ยังไม่เกิดขึ้น ภาระภาษีขายของธุรกิจบริการจะเกิดขึ้นเมื่อได้รับชำระเงิน", "เกิดขึ้นแล้ว แต่บันทึกเป็นภาษีซื้อแทน", "ไม่เกิดขึ้นเพราะธุรกิจบริการได้รับยกเว้นภาษีมูลค่าเพิ่ม"], correctIndex: 1, answerKey: "ข", explanation: "ตามกฎหมายภาษีมูลค่าเพิ่ม (VAT) สำหรับธุรกิจบริการ จุดความรับผิดในการเสียภาษี (Tax Point) จะเกิดขึ้นเมื่อได้รับชำระเงิน ดังนั้นหากยังไม่ได้เงิน ภาษีขายจะยังไม่เกิด (จะบันทึกเป็นภาษีขายยังไม่ถึงกำหนดชำระไว้ก่อน)" },
+          { id: 2, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "การออก 'ใบลดหนี้' (Credit Note) ให้แก่ลูกค้าเนื่องจากสินค้าชำรุด จะส่งผลต่อบัญชีภาษีของกิจการ (ผู้ขาย) อย่างไร", options: ["ภาษีซื้อเพิ่มขึ้น (เดบิต ภาษีซื้อ)", "ภาษีขายเพิ่มขึ้น (เครดิต ภาษีขาย)", "ภาษีขายลดลง (เดบิต ภาษีขาย)", "ไม่มีผลกระทบต่อบัญชีภาษี"], correctIndex: 2, answerKey: "ค", explanation: "การออกใบลดหนี้ (Credit Note) หมายถึงการลดมูลค่าสินค้าที่ขายไปแล้ว ดังนั้น ภาษีขาย (Output Tax) ที่เคยเรียกเก็บไว้จะต้องถูกปรับลดลงตามสัดส่วน โดยการบันทึกเดบิต ภาษีขาย เพื่อลดยอดหนี้สินภาษีลง" },
+          { id: 3, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ร้านค้าปลีกขายสินค้าให้ลูกค้าทั่วไปในราคา 5,350 บาท ซึ่งรวมภาษีมูลค่าเพิ่ม 7% แล้ว (VAT Inclusive) มูลค่าสินค้าสุทธิและภาษีขายคือข้อใด", options: ["มูลค่าสินค้า 5,350 บาท และภาษีขาย 374.50 บาท", "มูลค่าสินค้า 5,000 บาท และภาษีขาย 350 บาท", "มูลค่าสินค้า 4,975.50 บาท และภาษีขาย 374.50 บาท", "มูลค่าสินค้า 5,000 บาท และภาษีซื้อ 350 บาท"], correctIndex: 1, answerKey: "ข", calculation: "สูตรถอดภาษีมูลค่าเพิ่ม: มูลค่าสินค้า = ราคาขายรวมภาษี × (100 / 107)\nมูลค่าสินค้า = 5,350 × (100 / 107) = 5,000 บาท\nภาษีขาย = 5,350 - 5,000 = 350 บาท", explanation: "การคำนวณราคาสินค้าที่รวมภาษีแล้ว (VAT Inclusive) ต้องถอดภาษีออกโดยคูณด้วย 100/107 เพื่อหามูลค่าสินค้าสุทธิ และคูณด้วย 7/107 เพื่อหาภาษีขาย" },
+          { id: 4, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "กิจการซื้อเครื่องจักรราคา 500,000 บาท (ไม่รวมภาษีมูลค่าเพิ่ม) เพื่อใช้ในการผลิต ภาษีซื้อที่เกิดขึ้นสามารถนำมาเครดิตหักออกจากภาษีขายได้หรือไม่", options: ["ไม่ได้ ต้องนำไปรวมเป็นต้นทุนเครื่องจักรเท่านั้น", "ไม่ได้ เพราะเครื่องจักรไม่ใช่สินค้าคงเหลือ", "สามารถนำมาหักได้ เนื่องจากเป็นภาษีซื้อที่เกี่ยวข้องโดยตรงกับการประกอบกิจการที่เสียภาษีมูลค่าเพิ่ม", "นำมาหักได้เพียงครึ่งเดียวตามกฎหมาย"], correctIndex: 2, answerKey: "ค", explanation: "เครื่องจักรที่ใช้ในการประกอบกิจการ ถือเป็นสินทรัพย์ทุนที่เกี่ยวข้องโดยตรงกับการสร้างรายได้ที่ต้องเสียภาษี ภาษีซื้อที่เกิดขึ้นสามารถนำมาขอคืนหรือเครดิตหักออกจากภาษีขายได้เต็มจำนวน" },
+          { id: 5, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "บัญชี 'ภาษีมูลค่าเพิ่มรอการเรียกเก็บ' (ภาษีขายยังไม่ถึงกำหนดชำระ) มักจะเกิดขึ้นในกรณีใด", options: ["กิจการซื้อสินค้าเป็นเงินสด", "กิจการให้บริการเสร็จแล้วและออกใบแจ้งหนี้ แต่ยังไม่ได้รับชำระเงินจากลูกค้า", "กิจการขายสินค้าเป็นเงินเชื่อและส่งมอบสินค้าแล้ว", "กิจการจ่ายค่ารับรองลูกค้า"], correctIndex: 1, answerKey: "ข", explanation: "จะถูกใช้ในธุรกิจบริการ เมื่อกิจการออกใบแจ้งหนี้ไปแล้ว แต่ยังไม่ได้รับเงินสด (จุดความรับผิดยังไม่เกิด) จึงต้องบันทึกพักไว้ก่อน เมื่อได้รับเงินแล้วจึงจะโอนไปเป็นภาษีขาย" },
+          { id: 6, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ข้อใดคือตัวอย่างของ 'ภาษีซื้อต้องห้าม' ที่ไม่สามารถนำมาหักออกจากภาษีขายได้", options: ["ค่าซื้อวัตถุดิบในการผลิตสินค้า", "ค่าเครื่องเขียนและอุปกรณ์สำนักงาน", "ค่าน้ำประปาและค่าไฟฟ้าของโรงงาน", "ค่าใช้จ่ายในการรับรองลูกค้า"], correctIndex: 3, answerKey: "ง", explanation: "ตามกฎหมายภาษีสรรพากร ค่ารับรองลูกค้า (Entertainment Expenses) ถือเป็นรายจ่ายที่เกิดภาษีซื้อต้องห้าม กิจการไม่สามารถนำไปขอคืนหรือหักภาษีขายได้ แต่ให้นำรวมเข้าไปเป็นค่าใช้จ่ายของบริษัทแทน" },
+          { id: 7, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "เมื่อกิจการนำสินค้าของตนเองไปใช้ส่วนตัวหรือแจกจ่ายให้พนักงานโดยไม่คิดมูลค่า ตามหลักภาษีมูลค่าเพิ่มต้องดำเนินการอย่างไร", options: ["ถือเป็นการขายสินค้า ต้องนำมูลค่าสินค้ามาคำนวณและนำส่งภาษีขาย", "ถือเป็นสวัสดิการ ไม่ต้องเสียภาษีมูลค่าเพิ่ม", "ให้นำไปลดยอดภาษีซื้อ", "ให้บันทึกเป็นหนี้สูญ"], correctIndex: 0, answerKey: "ก", explanation: "ตามประมวลรัษฎากร การนำสินค้าของกิจการไปใช้ส่วนตัว หรือแจกจ่ายโดยไม่มีค่าตอบแทน ถือว่าเข้าลักษณะการขาย (Deemed Sales) กิจการมีหน้าที่ต้องประเมินมูลค่าสินค้าและคิดภาษีขายนำส่งสรรพากร" },
+          { id: 8, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "กิจการมีภาษีซื้อรอการขอคืนจากเดือนก่อน 1,500 บาท เดือนปัจจุบันมีภาษีขาย 8,000 บาท และภาษีซื้อ 5,000 บาท สิ้นเดือนกิจการต้องชำระภาษีเพิ่มหรือขอคืนเท่าใด", options: ["ต้องชำระภาษีเพิ่ม 3,000 บาท", "ต้องชำระภาษีเพิ่ม 1,500 บาท", "มีภาษีซื้อส่วนเกินขอคืนได้ 1,500 บาท", "ไม่ต้องชำระและไม่ต้องขอคืน"], correctIndex: 1, answerKey: "ข", calculation: "ภาษีที่ต้องชำระเดือนนี้ = ภาษีขาย (8,000 บาท) - ภาษีซื้อ (5,000 บาท) = 3,000 บาท\nนำเครดิตภาษีเดือนก่อนมาหัก = 3,000 - 1,500 = 1,500 บาท", explanation: "ภาษีที่ต้องชำระคำนวณจาก ภาษีขาย ลบ ภาษีซื้อ ในเดือนนี้คือ 3,000 บาท เมื่อนำเครดิตภาษียกมา 1,500 บาทมาหัก กิจการจะต้องชำระภาษีเพิ่ม 1,500 บาท" },
+          { id: 9, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "หากกิจการจดทะเบียนภาษีมูลค่าเพิ่ม มีหน้าที่ต้องยื่นแบบแสดงรายการภาษี (ภ.พ.30) ภายในวันที่เท่าใดของเดือนถัดไป (กรณียื่นแบบกระดาษ)", options: ["ภายในวันที่ 7 ของเดือนถัดไป", "ภายในวันที่ 15 ของเดือนถัดไป", "ภายในสิ้นเดือนถัดไป", "ภายในวันที่ 15 ของปีถัดไป"], correctIndex: 1, answerKey: "ข", explanation: "ผู้ประกอบการจดทะเบียนต้องยื่นแบบ ภ.พ.30 พร้อมชำระภาษี (ถ้ามี) เป็นรายเดือน ภายในวันที่ 15 ของเดือนถัดไปสำหรับการยื่นแบบกระดาษ" },
+          { id: 10, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "การบันทึกบัญชีเมื่อกิจการจ่ายค่ารับรองลูกค้า 3,000 บาท และมีภาษีมูลค่าเพิ่ม 210 บาท ข้อใดถูกต้อง (ชำระเป็นเงินสด)", options: ["เดบิต ค่ารับรอง 3,000 เดบิต ภาษีซื้อ 210 เครดิต เงินสด 3,210", "เดบิต ค่ารับรอง 3,210 เครดิต เงินสด 3,210", "เดบิต ค่ารับรอง 3,000 เดบิต ภาษีขาย 210 เครดิต เงินสด 3,210", "เดบิต เงินสด 3,210 เครดิต ค่ารับรอง 3,210"], correctIndex: 1, answerKey: "ข", explanation: "เนื่องจากค่ารับรองลูกค้าถือเป็นภาษีซื้อต้องห้าม จึงไม่สามารถบันทึกแยกบัญชีภาษีซื้อได้ กิจการต้องรวมมูลค่าภาษีเข้าไปเป็นต้นทุนของค่าใช้จ่ายทั้งหมด จึงเดบิตค่ารับรอง 3,210 บาท" },
+          
+          // 20 Original Questions
+          { id: 11, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการขายสินค้าในราคา 85,600 บาท ซึ่งรวมภาษีมูลค่าเพิ่มแล้ว จำนวนภาษีขายที่ต้องบันทึกเท่ากับเท่าใด", options: ["5,600 บาท", "5,992 บาท", "6,000 บาท", "6,400 บาท"], correctIndex: 0, answerKey: "ก", calculation: "ราคาขายรวมภาษี = 85,600 บาท\nภาษีขาย = 85,600 × (7 / 107) = 5,600 บาท", explanation: "หากราคารวมภาษีแล้ว การถอดภาษีออกต้องใช้อัตราส่วน 7/107 คูณกับยอดรวม จะได้ภาษีขาย 5,600 บาท และมูลค่าสินค้าสุทธิคือ 80,000 บาท" },
+          { id: 12, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการซื้อสินค้าเพื่อจำหน่ายราคา 60,000 บาท ภาษีมูลค่าเพิ่ม 4,200 บาท เป็นเงินเชื่อ โดยใช้ระบบสินค้าคงเหลือแบบสิ้นงวด ข้อใดบันทึกบัญชีถูกต้อง", options: ["เดบิต ซื้อสินค้า 64,200 เครดิต เจ้าหนี้การค้า 64,200", "เดบิต ซื้อสินค้า 60,000 เดบิต ภาษีซื้อ 4,200 เครดิต เจ้าหนี้การค้า 64,200", "เดบิต สินค้าคงเหลือ 60,000 เดบิต ภาษีขาย 4,200 เครดิต เจ้าหนี้การค้า 64,200", "เดบิต ซื้อสินค้า 60,000 เดบิต ภาษีขาย 4,200 เครดิต เจ้าหนี้การค้า 64,200"], correctIndex: 1, answerKey: "ข", explanation: "ในระบบ Periodic การซื้อสินค้าจะบันทึกเข้าบัญชี 'ซื้อสินค้า' 60,000 บาท และแยกบันทึกภาษีซื้อ 4,200 บาททางฝั่งเดบิต คู่กับเจ้าหนี้การค้าทางฝั่งเครดิตรวม 64,200 บาท" },
+          { id: 13, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการขายสินค้าเป็นเงินเชื่อราคา 120,000 บาท ภาษีมูลค่าเพิ่ม 7% สินค้ามีต้นทุน 75,000 บาท และใช้ระบบสินค้าคงเหลือแบบต่อเนื่อง ต้องบันทึกบัญชีกี่รายการและอย่างไร", options: ["หนึ่งรายการ บันทึกเฉพาะยอดขายและภาษีขาย", "หนึ่งรายการ บันทึกเฉพาะต้นทุนขายและสินค้าคงเหลือ", "สองรายการ ได้แก่ บันทึกยอดขายและภาษีซื้อ กับบันทึกต้นทุนขาย", "สองรายการ ได้แก่ บันทึกยอดขายและภาษีขาย กับบันทึกต้นทุนขายและลดสินค้าคงเหลือ"], correctIndex: 3, answerKey: "ง", explanation: "ในระบบ Perpetual เมื่อมีการขายสินค้าต้องบันทึก 2 รายการคู่กันเสมอ คือ 1) บันทึกรายได้จากการขายพร้อมภาษีขาย และ 2) บันทึกต้นทุนขายพร้อมตัดลดยอดสินค้าคงเหลือ" },
+          { id: 14, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการซื้อเครื่องคอมพิวเตอร์ราคา 40,000 บาท ภาษีมูลค่าเพิ่ม 2,800 บาท โดยภาษีซื้อสามารถนำมาหักได้ มูลค่าที่ควรบันทึกในบัญชีอุปกรณ์สำนักงานเท่ากับเท่าใด", options: ["37,200 บาท", "40,000 บาท", "42,800 บาท", "45,600 บาท"], correctIndex: 1, answerKey: "ข", explanation: "เนื่องจากภาษีซื้อสามารถนำมาหักได้ จึงแยกบันทึกเป็นสินทรัพย์ภาษีซื้อต่างหาก ไม่นำไปรวมเป็นต้นทุนของอุปกรณ์ มูลค่าอุปกรณ์สำนักงานจึงบันทึกเท่ากับ 40,000 บาท" },
+          { id: 15, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการขายสินค้าในราคาตามรายการ 90,000 บาท ให้ส่วนลดการค้า 10% ก่อนคำนวณภาษีมูลค่าเพิ่ม ภาษีขายเท่ากับเท่าใด", options: ["5,040 บาท", "5,670 บาท", "6,300 บาท", "6,930 บาท"], correctIndex: 1, answerKey: "ข", calculation: "มูลค่าหลังหักส่วนลดการค้า = 90,000 × 90% = 81,000 บาท\nภาษีขาย = 81,000 × 7% = 5,670 บาท", explanation: "ส่วนลดการค้าต้องนำมาหักออกจากราคาป้ายก่อนเสมอ เพื่อหายอดขายสุทธิที่แท้จริง (81,000 บาท) จากนั้นจึงนำไปคำนวณภาษีมูลค่าเพิ่ม 7%" },
+          { id: 16, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการซื้อสินค้าเป็นเงินเชื่อ 30,000 บาท ภาษีมูลค่าเพิ่ม 2,100 บาท ต่อมาส่งคืนสินค้า 5,000 บาท และได้รับใบลดหนี้ที่ถูกต้อง ผลกระทบต่อภาษีซื้อเป็นอย่างไร", options: ["ภาษีซื้อเพิ่มขึ้น 350 บาท", "ภาษีซื้อลดลง 350 บาท", "ภาษีขายลดลง 350 บาท", "ไม่มีผลต่อภาษีซื้อ"], correctIndex: 1, answerKey: "ข", calculation: "ภาษีที่ต้องปรับลด = 5,000 × 7% = 350 บาท", explanation: "การส่งคืนสินค้าทำให้สิทธิในการขอคืนภาษีซื้อลดลง จึงต้องบันทึกเครดิตเพื่อลดยอดภาษีซื้อลง 350 บาท" },
+          { id: 17, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการรับคืนสินค้าจากลูกค้า มูลค่าขาย 8,000 บาท ภาษีมูลค่าเพิ่ม 560 บาท ข้อใดเป็นรายการปรับปรุงที่ถูกต้องในส่วนของการขาย", options: ["เดบิต รับคืนสินค้าและส่วนลด 8,000 เดบิต ภาษีขาย 560 เครดิต ลูกหนี้การค้า 8,560", "เดบิต รับคืนสินค้าและส่วนลด 8,560 เครดิต ลูกหนี้การค้า 8,560", "เดบิต ลูกหนี้การค้า 8,560 เครดิต รับคืนสินค้าและส่วนลด 8,000 เครดิต ภาษีขาย 560", "เดบิต รับคืนสินค้าและส่วนลด 8,000 เดบิต ภาษีซื้อ 560 เครดิต ลูกหนี้การค้า 8,560"], correctIndex: 0, answerKey: "ก", explanation: "เมื่อรับคืนสินค้าจากลูกค้า กิจการต้องลดยอดภาษีขายที่เคยตั้งไว้ โดยการเดบิต ภาษีขาย 560 บาท คู่กับ รับคืนสินค้า 8,000 บาท และเครดิตลดยอดลูกหนี้การค้า 8,560 บาท" },
+          { id: 18, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการซื้อสินค้าเป็นเงินเชื่อ 50,000 บาท ภาษีมูลค่าเพิ่ม 3,500 บาท เงื่อนไข 2/10, n/30 และชำระหนี้ภายในกำหนด โดยสมมติว่าส่วนลดเงินสดไม่ปรับ VAT เดิม กิจการต้องชำระเงินเท่าใด", options: ["49,000 บาท", "52,430 บาท", "52,500 บาท", "53,500 บาท"], correctIndex: 2, answerKey: "ค", calculation: "ยอดหนี้เต็มจำนวนรวมภาษี = 50,000 + 3,500 = 53,500 บาท\nส่วนลดเงินสด 2% คิดจากมูลค่าสินค้า = 50,000 × 2% = 1,000 บาท\nยอดที่ต้องชำระ = 53,500 - 1,000 = 52,500 บาท", explanation: "ส่วนลดเงินสดคำนวณจากมูลค่าสินค้าก่อนภาษี เมื่อได้ส่วนลด 1,000 บาท ก็นำไปหักจากยอดหนี้รวม 53,500 บาท จึงจ่ายชำระจริง 52,500 บาท" },
+          { id: 19, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการให้บริการซ่อมแซมแก่ลูกค้าเป็นเงินสด 15,000 บาท ไม่รวมภาษีมูลค่าเพิ่ม ข้อใดบันทึกบัญชีถูกต้อง", options: ["เดบิต เงินสด 15,000 เครดิต รายได้ค่าบริการ 15,000", "เดบิต เงินสด 16,050 เครดิต รายได้ค่าบริการ 15,000 เครดิต ภาษีขาย 1,050", "เดบิต เงินสด 16,050 เครดิต รายได้ค่าบริการ 15,000 เครดิต ภาษีซื้อ 1,050", "เดบิต เงินสด 15,000 เดบิต ภาษีซื้อ 1,050 เครดิต รายได้ค่าบริการ 16,050"], correctIndex: 0, answerKey: "ก", explanation: "ตามเฉลยของโจทย์เดิมข้อนี้ หากระบุว่าไม่รวมภาษีมูลค่าเพิ่มและไม่มีการตั้งภาษีขาย แสดงว่าเป็นกิจการที่ไม่ได้จดทะเบียน VAT หรือเป็นบริการที่ได้รับยกเว้นภาษี จึงรับรู้เงินสดและรายได้ 15,000 บาทถ้วน" },
+          { id: 20, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการมีภาษีขาย 32,500 บาท ภาษีซื้อที่นำมาหักได้ 20,800 บาท และมีเครดิตภาษียกมา 2,000 บาท ภาษีมูลค่าเพิ่มที่ต้องชำระเท่ากับเท่าใด", options: ["5,700 บาท", "7,700 บาท", "9,700 บาท", "57,300 บาท"], correctIndex: 2, answerKey: "ค", calculation: "ภาษีที่ต้องชำระเดือนนี้ = ภาษีขาย (32,500 บาท) - ภาษีซื้อ (20,800 บาท) = 11,700 บาท\nหักเครดิตภาษียกมา = 11,700 - 2,000 = 9,700 บาท", explanation: "ภาษีขายหักภาษีซื้อได้ภาระภาษีเดือนนี้ 11,700 บาท แต่นำเครดิตภาษียกมาจากเดือนก่อน 2,000 บาทมาหักออก จึงชำระเงินจริงเพียง 9,700 บาท" },
+          { id: 21, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการมีภาษีขาย 12,000 บาท และภาษีซื้อที่นำมาหักได้ 17,000 บาท ข้อใดถูกต้องที่สุด", options: ["กิจการต้องชำระภาษี 5,000 บาท", "กิจการต้องบันทึกค่าใช้จ่ายภาษี 5,000 บาท", "กิจการมีภาษีซื้อส่วนเกิน 5,000 บาท ซึ่งอาจใช้เป็นเครดิตหรือขอคืนตามหลักเกณฑ์", "กิจการต้องบันทึกรายได้อื่น 5,000 บาท"], correctIndex: 2, answerKey: "ค", explanation: "กรณีภาษีซื้อมากกว่าภาษีขาย ผลต่าง 5,000 บาทเรียกว่าเครดิตภาษีมูลค่าเพิ่ม กิจการสามารถขอคืนเป็นเงินสดหรือนำไปเครดิตหักภาษีในเดือนถัดไปได้" },
+          { id: 22, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการมีภาษีขาย 25,000 บาท และภาษีซื้อ 18,000 บาท เมื่อปิดบัญชีประจำเดือน ข้อใดถูกต้อง", options: ["เดบิต ภาษีซื้อ 18,000 เดบิต ภาษีมูลค่าเพิ่มค้างชำระ 7,000 เครดิต ภาษีขาย 25,000", "เดบิต ภาษีขาย 25,000 เครดิต ภาษีซื้อ 18,000 เครดิต ภาษีมูลค่าเพิ่มค้างชำระ 7,000", "เดบิต ภาษีขาย 25,000 เครดิต ภาษีซื้อ 25,000", "เดบิต ภาษีขาย 18,000 เครดิต ภาษีซื้อ 18,000"], correctIndex: 1, answerKey: "ข", explanation: "การปิดบัญชีภาษีประจำเดือน จะล้างภาษีขาย (Dr.) และภาษีซื้อ (Cr.) ออก ผลต่าง 7,000 บาทบันทึกเป็นหนี้สิน 'ภาษีมูลค่าเพิ่มค้างชำระ' ทางด้านเครดิต" },
+          { id: 23, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "หลังจากปิดบัญชีภาษีซื้อและภาษีขายแล้ว กิจการมีภาษีมูลค่าเพิ่มค้างชำระ 6,300 บาท เมื่อชำระผ่านบัญชีธนาคาร ข้อใดถูกต้อง", options: ["เดบิต ภาษีขาย เครดิต เงินฝากธนาคาร", "เดบิต ภาษีซื้อ เครดิต เงินฝากธนาคาร", "เดบิต ค่าใช้จ่ายภาษีมูลค่าเพิ่ม เครดิต เงินฝากธนาคาร", "เดบิต ภาษีมูลค่าเพิ่มค้างชำระ เครดิต เงินฝากธนาคาร"], correctIndex: 3, answerKey: "ง", explanation: "เมื่อนำเงินไปชำระภาษีค้างจ่าย ต้องลดยอดหนี้สินลงด้วยการเดบิต 'ภาษีมูลค่าเพิ่มค้างชำระ' และเครดิตลด 'เงินฝากธนาคาร'" },
+          { id: 24, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการซื้อรถยนต์เพื่อใช้ในการดำเนินงาน โดยภาษีซื้อจากรายการดังกล่าวไม่สามารถนำมาหักได้ตามข้อสมมติของโจทย์ ข้อใดเหมาะสมที่สุด", options: ["แยกภาษีซื้อไว้เสมอ", "บันทึกภาษีซื้อเป็นรายได้", "รวมภาษีมูลค่าเพิ่มเป็นส่วนหนึ่งของต้นทุนรถยนต์ตามหลักการบัญชีที่เกี่ยวข้อง", "ไม่ต้องบันทึกภาษีมูลค่าเพิ่ม"], correctIndex: 2, answerKey: "ค", explanation: "หากภาษีซื้อเป็นภาษีต้องห้ามตามกฎหมาย จะไม่สามารถขอคืนได้ จึงต้องรวมมูลค่าภาษีเข้าไปเป็นส่วนหนึ่งของราคาทุนรถยนต์" },
+          { id: 25, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการออกใบเพิ่มหนี้ให้ลูกค้า เนื่องจากมีการปรับเพิ่มราคาสินค้าจากรายการเดิมอีก 10,000 บาท ไม่รวม VAT ผลกระทบทางบัญชีข้อใดถูกต้อง", options: ["ภาษีขายเพิ่มขึ้น 700 บาท", "ภาษีซื้อลดลง 700 บาท", "ภาษีขายลดลง 700 บาท", "ไม่มีผลต่อภาษีมูลค่าเพิ่ม"], correctIndex: 0, answerKey: "ก", calculation: "ภาษีขายที่ต้องคิดเพิ่ม = 10,000 × 7% = 700 บาท", explanation: "การออกใบเพิ่มหนี้เกิดจากการคิดราคาสินค้าต่ำไป เมื่อปรับราคาเพิ่มขึ้น 10,000 บาท กิจการจึงต้องเรียกเก็บภาษีขายเพิ่มขึ้นอีก 700 บาท" },
+          { id: 26, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "รายงานภาษีซื้อแสดงยอด 18,900 บาท แต่บัญชีภาษีซื้อในแยกประเภทแสดงยอด 20,300 บาท นักบัญชีควรดำเนินการอย่างไรเป็นอันดับแรก", options: ["ปรับรายงานภาษีซื้อเพิ่ม 1,400 บาททันที", "ปรับบัญชีภาษีซื้อลด 1,400 บาททันที", "ตรวจสอบเอกสารและรายการที่ทำให้เกิดผลต่างก่อนปรับปรุง", "ใช้ยอดที่สูงกว่าในการยื่นแบบภาษี"], correctIndex: 2, answerKey: "ค", explanation: "เมื่อยอดรายงานภาษีไม่ตรงกับบัญชีแยกประเภท ต้องทำการตรวจสอบกระทบยอดเอกสารเพื่อหาสาเหตุก่อน ห้ามปรับปรุงตัวเลขโดยพลการ" },
+          { id: 27, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "กิจการส่งคืนสินค้าที่ซื้อมาเป็นเงินเชื่อ มูลค่าสินค้า 10,000 บาท ภาษีมูลค่าเพิ่ม 700 บาท และได้รับใบลดหนี้จากผู้ขาย ข้อใดเป็นการบันทึกบัญชีที่ถูกต้อง (ระบบ Periodic)", options: ["เดบิต เจ้าหนี้การค้า 10,700 เครดิต ส่งคืนสินค้า 10,000 เครดิต ภาษีซื้อ 700", "เดบิต เจ้าหนี้การค้า 10,000 เครดิต สินค้าคงเหลือ 10,000", "เดบิต ส่งคืนสินค้า 10,000 เครดิต เงินสด 10,000", "เดบิต เจ้าหนี้การค้า 10,700 เครดิต ซื้อสินค้า 10,700"], correctIndex: 0, answerKey: "ก", explanation: "ส่งคืนสินค้าต้องลดเจ้าหนี้เต็มจำนวน 10,700 บาท เครดิตบัญชีส่งคืนสินค้า 10,000 บาท และเครดิตลดยอดภาษีซื้อลง 700 บาท" },
+          { id: 28, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "ข้อใดคือความหมายของ 'ภาษีมูลค่าเพิ่ม' (Value Added Tax: VAT)", options: ["ภาษีที่จัดเก็บจากกำไรสุทธิของบริษัทประจำปี", "ภาษีที่เรียกเก็บจากเงินเดือนของผู้บริหารและพนักงาน", "ภาษีที่จัดเก็บจากการบริโภค โดยเรียกเก็บจากมูลค่าส่วนที่เพิ่มขึ้นในแต่ละขั้นตอนการผลิตและการจำหน่าย", "ภาษีที่เรียกเก็บจากการนำเข้าสินค้าเพียงอย่างเดียว"], correctIndex: 2, answerKey: "ค", explanation: "ภาษีมูลค่าเพิ่มเป็นภาษีทางอ้อมที่จัดเก็บจากมูลค่าส่วนที่เพิ่มขึ้นในแต่ละขั้นของการผลิตและการกระจายสินค้า โดยผลักภาระไปยังผู้บริโภคคนสุดท้าย" },
+          { id: 29, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "หากในเดือนภาษี กิจการมีภาษีซื้อมากกว่าภาษีขาย กิจการจะบันทึกผลต่างไว้ในบัญชีใดเมื่อปิดบัญชีภาษี", options: ["ภาษีมูลค่าเพิ่มค้างชำระ (VAT Payable)", "ลูกหนี้กรมสรรพากร / ภาษีมูลค่าเพิ่มขอคืน (VAT Receivable)", "กำไรสะสม (Retained Earnings)", "รายได้อื่น (Other Income)"], correctIndex: 1, answerKey: "ข", explanation: "ภาษีซื้อมากกว่าภาษีขาย แสดงว่าจ่ายภาษีเกินไป ผลต่างจึงมีสถานะเป็นสินทรัพย์ บันทึกเป็น 'ลูกหนี้กรมสรรพากร' หรือ 'ภาษีมูลค่าเพิ่มขอคืน'" },
+          { id: 30, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "การขายสินค้าหรือให้บริการใดต่อไปนี้ ได้รับยกเว้นภาษีมูลค่าเพิ่ม (VAT Exempt)", options: ["การขายสินค้าเกษตรกรรมที่ยังไม่ได้แปรรูป", "การขายเสื้อผ้าแฟชั่นในห้างสรรพสินค้า", "การให้บริการเช่ารถยนต์ขับเอง", "การขายเครื่องใช้ไฟฟ้า"], correctIndex: 0, answerKey: "ก", explanation: "ตามประมวลรัษฎากร การขายพืชผลทางการเกษตรที่ยังไม่ได้แปรรูป สัตว์มีชีวิต การศึกษา และการรักษาพยาบาล ได้รับการยกเว้นภาษีมูลค่าเพิ่ม" }
+        ]
+      },
+      ch8: {
+        title: "บทที่ 8: กิจการผลิต (Manufacturing)",
+        desc: "การจำแนกต้นทุนการผลิต วัตถุดิบทางตรง ค่าแรงงานทางตรง ค่าใช้จ่ายการผลิต ต้นทุนสินค้าผลิตเสร็จ และการไหลของต้นทุน",
+        icon: '<i class="fa-solid fa-industry"></i>',
+        gradientClass: 'from-amber-500 via-orange-500 to-yellow-500',
+        badgeColor: 'amber',
+        summaryHTML: `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden md:col-span-2">
+              <div class="bg-gradient-to-r from-amber-500 to-orange-500 text-white p-3.5 font-heading font-bold text-base flex items-center gap-2">
+                <i class="fa-solid fa-cubes text-amber-200"></i> โครงสร้างต้นทุนการผลิต (Manufacturing Costs)
+              </div>
+              <div class="p-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-slate-700">
+                <div class="border border-slate-200 p-3.5 rounded-xl bg-slate-50/70">
+                  <h4 class="font-bold text-amber-800 mb-1">1. วัตถุดิบทางตรง (Direct Materials - DM)</h4>
+                  <p class="text-xs text-slate-600">วัตถุดิบหลักที่เป็นส่วนประกอบสำคัญของสินค้า ระบุต้นทุนเข้าชิ้นงานได้ชัดเจน เช่น ไม้ในการผลิตโต๊ะ, ผ้าในการตัดเย็บเสื้อ</p>
+                </div>
+                <div class="border border-slate-200 p-3.5 rounded-xl bg-slate-50/70">
+                  <h4 class="font-bold text-amber-800 mb-1">2. ค่าแรงงานทางตรง (Direct Labor - DL)</h4>
+                  <p class="text-xs text-slate-600">ค่าจ้างของพนักงานหรือช่างที่ทำการผลิต แปรรูป หรือประกอบสินค้านั้นโดยตรง</p>
+                </div>
+                <div class="border border-slate-200 p-3.5 rounded-xl bg-slate-50/70">
+                  <h4 class="font-bold text-amber-800 mb-1">3. ค่าใช้จ่ายการผลิต (Manufacturing Overhead - MOH)</h4>
+                  <p class="text-xs text-slate-600">ต้นทุนโรงงานอื่นๆ ทั้งหมด เช่น วัตถุดิบทางอ้อม (กาว ตะปู), ค่าแรงงานทางอ้อม (ผู้คุมงาน), ค่าเสื่อมราคาเครื่องจักร, ค่าไฟโรงงาน</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <div class="bg-gradient-to-r from-orange-500 to-amber-600 text-white p-3.5 font-heading font-bold text-base flex items-center gap-2">
+                <i class="fa-solid fa-link text-amber-200"></i> สูตรจำแนกต้นทุนการผลิต
+              </div>
+              <div class="p-4 text-sm text-slate-700 space-y-3">
+                <p class="font-mono text-xs font-bold text-slate-800"><span class="text-slate-500">ต้นทุนขั้นต้น (Prime Costs)</span> = วัตถุดิบทางตรง + ค่าแรงงานทางตรง</p>
+                <p class="font-mono text-xs font-bold text-slate-800 border-b border-slate-100 pb-2"><span class="text-slate-500">ต้นทุนแปรสภาพ (Conversion Costs)</span> = ค่าแรงงานทางตรง + ค่าใช้จ่ายการผลิต</p>
+                
+                <h4 class="font-bold text-slate-800 mt-2 text-xs">ต้นทุนสินค้าที่ผลิตเสร็จ (Cost of Goods Manufactured - COGM)</h4>
+                <p class="font-mono text-xs whitespace-pre-line leading-relaxed text-slate-700">  งานระหว่างทำต้นงวด
++ ต้นทุนการผลิตระหว่างงวด (วัตถุดิบทางตรง + ค่าแรงงานทางตรง + ค่าใช้จ่ายการผลิต)
+- งานระหว่างทำปลายงวด
+<span class="text-emerald-700 font-bold">= ต้นทุนสินค้าที่ผลิตเสร็จ (COGM)</span></p>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <div class="bg-gradient-to-r from-amber-600 to-yellow-500 text-white p-3.5 font-heading font-bold text-base flex items-center gap-2">
+                <i class="fa-solid fa-boxes-stacked text-amber-100"></i> ลำดับการไหลของสินค้าคงเหลือ
+              </div>
+              <div class="p-4 text-sm text-slate-700">
+                <ul class="list-decimal pl-4 space-y-2 text-xs text-slate-600">
+                  <li><strong>วัตถุดิบ (Raw Materials):</strong> ของที่ซื้อมาเตรียมเข้าสู่การผลิต</li>
+                  <li><strong>งานระหว่างทำ (Work in Process):</strong> สินค้าที่อยู่ในสายพานการผลิต ยังผลิตไม่เสร็จสมบูรณ์</li>
+                  <li><strong>สินค้าสำเร็จรูป (Finished Goods):</strong> สินค้าที่ผลิตเสร็จสมบูรณ์พร้อมขาย</li>
+                  <li><strong>ต้นทุนขาย (Cost of Goods Sold):</strong> เมื่อขายสินค้าสำเร็จรูปออกไป จะรับรู้เป็นค่าใช้จ่ายในงบกำไรขาดทุน</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        `,
+        questions: [
+          // 10 New AI Questions
+          { id: 1, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ถ้าบริษัทมีการเบิก 'วัตถุดิบทางตรง' ไปใช้ในการผลิต จะทำการบันทึกบัญชีโดยเดบิตเข้าบัญชีใด", options: ["ต้นทุนขาย (Cost of Goods Sold)", "งานระหว่างทำ (Work in Process)", "ค่าใช้จ่ายการผลิต (Manufacturing Overhead)", "สินค้าสำเร็จรูป (Finished Goods)"], correctIndex: 1, answerKey: "ข", explanation: "เมื่อเบิกวัตถุดิบทางตรงไปใช้ในการผลิต ต้นทุนจะเข้าสู่กระบวนการผลิตทันที จึงต้องบันทึกเดบิตบัญชี 'งานระหว่างทำ' (Work in Process)" },
+          { id: 2, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ค่าแรงงานทางอ้อม เช่น เงินเดือนผู้ควบคุมโรงงาน จัดเป็นต้นทุนประเภทใด", options: ["วัตถุดิบทางตรง", "ค่าแรงงานทางตรง", "ค่าใช้จ่ายการผลิต", "ค่าใช้จ่ายในการบริหาร"], correctIndex: 2, answerKey: "ค", explanation: "เงินเดือนของผู้ดูแลโรงงาน ไม่สามารถระบุเจาะจงเข้าสู่ตัวสินค้าได้โดยตรง จึงจัดเป็นค่าแรงงานทางอ้อม ซึ่งเป็นส่วนหนึ่งของค่าใช้จ่ายการผลิต (Manufacturing Overhead)" },
+          { id: 3, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ข้อใดคือสมการในการหา ต้นทุนสินค้าที่ผลิตเสร็จ (Cost of Goods Manufactured)", options: ["งานระหว่างทำต้นงวด + ต้นทุนการผลิตระหว่างงวด - งานระหว่างทำปลายงวด", "วัตถุดิบทางตรง + ค่าแรงงานทางตรง + ค่าใช้จ่ายการผลิต", "สินค้าสำเร็จรูปต้นงวด + ต้นทุนการผลิตระหว่างงวด - สินค้าสำเร็จรูปปลายงวด", "งานระหว่างทำต้นงวด + สินค้าสำเร็จรูปต้นงวด - ต้นทุนขาย"], correctIndex: 0, answerKey: "ก", explanation: "ต้นทุนสินค้าที่ผลิตเสร็จ คำนวณจาก งานระหว่างทำต้นงวด บวก ต้นทุนการผลิตระหว่างงวด หัก งานระหว่างทำปลายงวด" },
+          { id: 4, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ต้นทุนใดต่อไปนี้ ถือเป็นต้นทุนช่วงเวลา (Period Cost)", options: ["ค่าเสื่อมราคาเครื่องจักรโรงงาน", "ค่าแรงช่างในสายพานการผลิต", "ค่าไฟโรงงาน", "เงินเดือนพนักงานขายและผู้บริหาร"], correctIndex: 3, answerKey: "ง", explanation: "ต้นทุนช่วงเวลา (Period Costs) คือค่าใช้จ่ายที่ไม่เกี่ยวข้องกับโรงงานผลิต เช่น ค่าใช้จ่ายในการขายและบริหาร จะถูกตัดเป็นค่าใช้จ่ายในงวดนั้นทันที" },
+          { id: 5, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "เมื่อสินค้าผลิตเสร็จและพร้อมขาย ต้นทุนจะถูกโอนจากบัญชีใดไปยังบัญชีใด", options: ["โอนจาก วัตถุดิบ ไปยัง งานระหว่างทำ", "โอนจาก งานระหว่างทำ ไปยัง สินค้าสำเร็จรูป", "โอนจาก สินค้าสำเร็จรูป ไปยัง ต้นทุนขาย", "โอนจาก ค่าใช้จ่ายการผลิต ไปยัง ต้นทุนขาย"], correctIndex: 1, answerKey: "ข", explanation: "เมื่อกระบวนการผลิตเสร็จสมบูรณ์ ต้นทุนจะถูกโอนย้ายออกจากบัญชี 'งานระหว่างทำ' เข้าสู่บัญชี 'สินค้าสำเร็จรูป' เพื่อรอการขาย" },
+          { id: 6, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "บัญชีใดในกิจการผลิตที่ทำหน้าที่เทียบเท่ากับบัญชี 'ซื้อสินค้า' ในกิจการซื้อขายสินค้า", options: ["งานระหว่างทำ", "สินค้าสำเร็จรูป", "ต้นทุนสินค้าที่ผลิตเสร็จ", "ต้นทุนขาย"], correctIndex: 2, answerKey: "ค", explanation: "ในกิจการซื้อขายสินค้า สินค้าพร้อมขายคำนวณจาก สินค้าต้นงวด + ซื้อสินค้า ส่วนในกิจการผลิตจะใช้ สินค้าสำเร็จรูปต้นงวด + ต้นทุนสินค้าที่ผลิตเสร็จ" },
+          { id: 7, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ต้นทุนขั้นต้น (Prime Costs) ประกอบด้วยรายการใดบ้าง", options: ["วัตถุดิบทางตรง และ ค่าแรงงานทางตรง", "ค่าแรงงานทางตรง และ ค่าใช้จ่ายการผลิต", "วัตถุดิบทางอ้อม และ ค่าแรงงานทางอ้อม", "ค่าใช้จ่ายในการขาย และ ค่าใช้จ่ายในการบริหาร"], correctIndex: 0, answerKey: "ก", explanation: "ต้นทุนขั้นต้น (Prime Costs) คือต้นทุนหลักที่แปรผันตามการผลิตโดยตรง ประกอบด้วย วัตถุดิบทางตรง บวก ค่าแรงงานทางตรง" },
+          { id: 8, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ต้นทุนแปรสภาพ (Conversion Costs) ประกอบด้วยรายการใดบ้าง", options: ["วัตถุดิบทางตรง และ ค่าแรงงานทางตรง", "ค่าแรงงานทางตรง และ ค่าใช้จ่ายการผลิต", "วัตถุดิบทางตรง และ ค่าใช้จ่ายการผลิต", "สินค้าสำเร็จรูป และ งานระหว่างทำ"], correctIndex: 1, answerKey: "ข", explanation: "ต้นทุนแปรสภาพ (Conversion Costs) คือต้นทุนในการเปลี่ยนสภาพวัตถุดิบให้เป็นสินค้า ประกอบด้วย ค่าแรงงานทางตรง บวก ค่าใช้จ่ายการผลิต" },
+          { id: 9, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "หากบริษัทประมาณการค่าใช้จ่ายการผลิตต่ำกว่าความเป็นจริง (Underapplied Overhead) เมื่อปิดบัญชีผลต่างเข้าบัญชีต้นทุนขาย จะส่งผลอย่างไร", options: ["ทำให้ต้นทุนขายลดลง และกำไรขั้นต้นเพิ่มขึ้น", "ทำให้ต้นทุนขายเพิ่มขึ้น และกำไรขั้นต้นลดลง", "ไม่มีผลต่อกำไรขั้นต้น", "ทำให้สินทรัพย์รวมเพิ่มขึ้น"], correctIndex: 1, answerKey: "ข", explanation: "เมื่อจัดสรรค่าใช้จ่ายการผลิตต่ำไป เมื่อปิดบัญชีจึงต้องปรับเพิ่มต้นทุนขายให้เท่าของจริง ซึ่งทำให้กำไรขั้นต้นลดลง" },
+          { id: 10, section: 1, sectionTitle: "ส่วนที่ 1: โจทย์แต่งใหม่โดย AI", text: "ค่าใช้จ่ายใดต่อไปนี้ ถือเป็นวัตถุดิบทางอ้อม (Indirect Materials)", options: ["ไม้เนื้อแข็งที่ใช้ทำโครงโต๊ะ", "เหล็กเส้นที่ใช้ในการก่อสร้างอาคาร", "กาวและตะปูที่ใช้ในการประกอบเฟอร์นิเจอร์", "เงินเดือนพนักงานคุมเครื่องจักร"], correctIndex: 2, answerKey: "ค", explanation: "กาวและตะปูเป็นวัสดุที่ใช้ในการผลิตแต่มีมูลค่าน้อยและติดตามยาก จึงจัดเป็นวัตถุดิบทางอ้อม ซึ่งเป็นส่วนหนึ่งของค่าใช้จ่ายการผลิต" },
+          
+          // 20 Original Questions
+          { id: 11, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "ข้อใดอธิบายความแตกต่างที่สำคัญที่สุดระหว่างกิจการซื้อขายสินค้า และกิจการผลิตได้ถูกต้อง", options: ["กิจการซื้อขายสินค้าไม่มีต้นทุนขาย แต่กิจการผลิตมีต้นทุนขาย", "กิจการผลิตต้องรวบรวมต้นทุนผ่านกระบวนการผลิตก่อนที่สินค้าจะพร้อมขาย", "กิจการผลิตไม่มีสินค้าคงเหลือ เนื่องจากวัตถุดิบถูกใช้ในการผลิตทั้งหมด", "กิจการผลิตมีรายได้จากการขายสินค้า แต่กิจการซื้อขายสินค้าไม่มีรายได้จากการขาย"], correctIndex: 1, answerKey: "ข", explanation: "กิจการผลิตต้องรวบรวมต้นทุนวัตถุดิบ ค่าแรง และค่าใช้จ่ายโรงงานผ่านกระบวนการผลิตก่อนที่จะได้สินค้าพร้อมจำหน่าย" },
+          { id: 12, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "บริษัทผลิตโต๊ะไม้มีรายการต้นทุนดังต่อไปนี้: ไม้ที่ใช้ผลิตโต๊ะ 60,000 บาท, ค่าแรงช่างประกอบโต๊ะ 40,000 บาท, เงินเดือนหัวหน้าควบคุมการผลิต 15,000 บาท, ค่าโฆษณา 10,000 บาท ต้นทุนการผลิตรวมของบริษัทเท่ากับเท่าใด", options: ["100,000 บาท", "115,000 บาท", "125,000 บาท", "110,000 บาท"], correctIndex: 1, answerKey: "ข", calculation: "ต้นทุนการผลิตรวม = วัตถุดิบทางตรง (60,000 บาท) + ค่าแรงงานทางตรง (40,000 บาท) + ค่าใช้จ่ายการผลิต (15,000 บาท)\n= 115,000 บาท (ค่าโฆษณา 10,000 บาทเป็นค่าใช้จ่ายในการขาย ไม่รวมเป็นต้นทุนผลิต)", explanation: "ต้นทุนการผลิตรวมเฉพาะต้นทุนที่เกิดขึ้นในโรงงาน ได้แก่ ไม้, ค่าแรงช่าง, เงินเดือนหัวหน้าคุมงาน รวมเป็น 115,000 บาท" },
+          { id: 13, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "บริษัทผลิตเสื้อผ้ามีค่าใช้จ่ายดังต่อไปนี้ ข้อใดควรจัดเป็นค่าใช้จ่ายการผลิต", options: ["ค่าขนส่งสินค้าสำเร็จรูปให้ลูกค้าตามเงื่อนไขที่ผู้ขายรับผิดชอบ", "เงินเดือนผู้จัดการฝ่ายบัญชี", "ค่าคอมมิชชันพนักงานขาย", "ค่าเสื่อมราคาเครื่องจักรเย็บผ้าในโรงงาน"], correctIndex: 3, answerKey: "ง", explanation: "ค่าเสื่อมราคาเครื่องจักรเย็บผ้าในโรงงานถือเป็นค่าใช้จ่ายที่เกิดขึ้นในส่วนของการผลิตโดยตรง จึงจัดเป็นค่าใช้จ่ายการผลิต (MOH)" },
+          { id: 14, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "บริษัทซื้อวัตถุดิบเป็นเงินเชื่อ 80,000 บาท และต่อมาเบิกวัตถุดิบเข้าสู่การผลิต 50,000 บาท โดยเป็นวัตถุดิบทางตรง 45,000 บาท และวัตถุดิบทางอ้อม 5,000 บาท การบันทึกรายการเบิกวัตถุดิบข้อใดถูกต้อง", options: ["เดบิต งานระหว่างทำ 50,000 บาท เครดิต วัตถุดิบ 50,000 บาท", "เดบิต ค่าใช้จ่ายการผลิต 50,000 บาท เครดิต วัตถุดิบ 50,000 บาท", "เดบิต ต้นทุนขาย 45,000 บาท เดบิต ค่าใช้จ่ายการผลิต 5,000 บาท เครดิต วัตถุดิบ 50,000 บาท", "เดบิต งานระหว่างทำ 45,000 บาท เดบิต ค่าใช้จ่ายการผลิต 5,000 บาท เครดิต วัตถุดิบ 50,000 บาท"], correctIndex: 3, answerKey: "ง", explanation: "วัตถุดิบทางตรง 45,000 บาทโอนเข้าบัญชี 'งานระหว่างทำ' ส่วนวัตถุดิบทางอ้อม 5,000 บาทโอนเข้าบัญชี 'ค่าใช้จ่ายการผลิต' และเครดิตลดบัญชี 'วัตถุดิบ' 50,000 บาท" },
+          { id: 15, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "บริษัทมีค่าแรงงานทางตรง 90,000 บาท และค่าแรงงานทางอ้อม 20,000 บาท โดยค่าแรงทั้งหมดค้างจ่าย ณ วันสิ้นงวด ข้อใดเป็นการบันทึกรายการที่ถูกต้อง", options: ["เดบิต ต้นทุนขาย 90,000 บาท เดบิต ค่าใช้จ่ายการผลิต 20,000 บาท เครดิต ค่าจ้างค้างจ่าย 110,000 บาท", "เดบิต งานระหว่างทำ 110,000 บาท เครดิต ค่าจ้างค้างจ่าย 110,000 บาท", "เดบิต ค่าใช้จ่ายการผลิต 110,000 บาท เครดิต ค่าจ้างค้างจ่าย 110,000 บาท", "เดบิต งานระหว่างทำ 90,000 บาท เดบิต ค่าใช้จ่ายการผลิต 20,000 บาท เครดิต ค่าจ้างค้างจ่าย 110,000 บาท"], correctIndex: 3, answerKey: "ง", explanation: "ค่าแรงงานทางตรง 90,000 บาทบันทึกเดบิต 'งานระหว่างทำ' ส่วนค่าแรงงานทางอ้อม 20,000 บาทบันทึกเดบิต 'ค่าใช้จ่ายการผลิต' คู่กับเครดิต 'ค่าจ้างค้างจ่าย' รวม 110,000 บาท" },
+          { id: 16, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "บริษัทมีวัตถุดิบคงเหลือต้นงวด 25,000 บาท ซื้อวัตถุดิบระหว่างงวด 120,000 บาท และมีวัตถุดิบคงเหลือปลายงวด 35,000 บาท หากวัตถุดิบใช้ไปประกอบด้วยวัตถุดิบทางอ้อม 15,000 บาท วัตถุดิบทางตรงใช้ไปเท่ากับเท่าใด", options: ["95,000 บาท", "110,000 บาท", "125,000 บาท", "100,000 บาท"], correctIndex: 0, answerKey: "ก", calculation: "วัตถุดิบใช้ไปรวม = ต้นงวด (25,000 บาท) + ซื้อระหว่างงวด (120,000 บาท) - ปลายงวด (35,000 บาท) = 110,000 บาท\nวัตถุดิบทางตรงใช้ไป = 110,000 - วัตถุดิบทางอ้อม (15,000 บาท) = 95,000 บาท", explanation: "คำนวณวัตถุดิบใช้ไปทั้งหมดก่อนแล้วหักส่วนที่เป็นวัตถุดิบทางอ้อมออก จะได้วัตถุดิบทางตรงใช้ไป 95,000 บาท" },
+          { id: 17, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "บริษัทมีต้นทุนการผลิตดังนี้: วัตถุดิบทางตรงใช้ไป 120,000 บาท, ค่าแรงงานทางตรง 80,000 บาท, วัตถุดิบทางอ้อม 15,000 บาท, ค่าแรงงานทางอ้อม 25,000 บาท, ค่าเสื่อมราคาเครื่องจักรโรงงาน 20,000 บาท, เงินเดือนพนักงานขาย 30,000 บาท ต้นทุนการผลิตระหว่างงวดเท่ากับเท่าใด", options: ["290,000 บาท", "200,000 บาท", "260,000 บาท", "240,000 บาท"], correctIndex: 2, answerKey: "ค", calculation: "ต้นทุนการผลิตระหว่างงวด = วัตถุดิบทางตรง (120,000 บาท) + ค่าแรงงานทางตรง (80,000 บาท) + ค่าใช้จ่ายการผลิต (15,000 + 25,000 + 20,000 = 60,000 บาท)\n= 260,000 บาท (เงินเดือนพนักงานขาย 30,000 บาทไม่นับรวม)", explanation: "รวมต้นทุนการผลิตในโรงงานทั้งหมด (DM + DL + MOH) ได้ 260,000 บาท ไม่รวมเงินเดือนพนักงานขายซึ่งเป็นค่าใช้จ่ายในการดำเนินงาน" },
+          { id: 18, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "บริษัทมีต้นทุนการผลิตระหว่างงวด 350,000 บาท งานระหว่างทำต้นงวด 40,000 บาท และงานระหว่างทำปลายงวด 65,000 บาท ต้นทุนสินค้าที่ผลิตเสร็จเท่ากับเท่าใด", options: ["350,000 บาท", "325,000 บาท", "455,000 บาท", "285,000 บาท"], correctIndex: 1, answerKey: "ข", calculation: "ต้นทุนสินค้าที่ผลิตเสร็จ = งานระหว่างทำต้นงวด (40,000 บาท) + ต้นทุนการผลิตระหว่างงวด (350,000 บาท) - งานระหว่างทำปลายงวด (65,000 บาท)\n= 325,000 บาท", explanation: "คำนวณตามสูตร COGM = งานระหว่างทำต้นงวด + ต้นทุนการผลิตระหว่างงวด - งานระหว่างทำปลายงวด ได้ 325,000 บาท" },
+          { id: 19, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "บริษัทมีต้นทุนสินค้าที่ผลิตเสร็จ 480,000 บาท สินค้าสำเร็จรูปต้นงวด 70,000 บาท และสินค้าสำเร็จรูปปลายงวด 90,000 บาท ต้นทุนขายเท่ากับเท่าใด", options: ["460,000 บาท", "640,000 บาท", "390,000 บาท", "480,000 บาท"], correctIndex: 0, answerKey: "ก", calculation: "ต้นทุนขาย = สินค้าสำเร็จรูปต้นงวด (70,000 บาท) + ต้นทุนสินค้าที่ผลิตเสร็จ (480,000 บาท) - สินค้าสำเร็จรูปปลายงวด (90,000 บาท)\n= 460,000 บาท", explanation: "คำนวณตามสูตร COGS = สินค้าสำเร็จรูปต้นงวด + ต้นทุนสินค้าที่ผลิตเสร็จ - สินค้าสำเร็จรูปปลายงวด ได้ 460,000 บาท" },
+          { id: 20, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "บริษัทผลิตสินค้าเสร็จและโอนต้นทุนจากงานระหว่างทำไปยังสินค้าสำเร็จรูป 200,000 บาท ข้อใดอธิบายผลกระทบของรายการนี้ได้ถูกต้อง", options: ["ต้นทุนขายเพิ่มขึ้นและกำไรลดลง 200,000 บาท", "สินทรัพย์รวมเพิ่มขึ้น 200,000 บาท", "งานระหว่างทำลดลงและสินค้าสำเร็จรูปเพิ่มขึ้น โดยสินทรัพย์รวมไม่เปลี่ยนแปลง", "ค่าใช้จ่ายเพิ่มขึ้น 200,000 บาท"], correctIndex: 2, answerKey: "ค", explanation: "เป็นการโอนเปลี่ยนประเภทสินทรัพย์ภายในหมวดสินค้าคงเหลือ โดยงานระหว่างทำลดลง 200,000 บาท และสินค้าสำเร็จรูปเพิ่มขึ้น 200,000 บาท สินทรัพย์รวมจึงไม่เปลี่ยนแปลง" },
+          { id: 21, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "บริษัทมีข้อมูลดังนี้: ขายสุทธิ 600,000 บาท, ต้นทุนสินค้าที่ผลิตเสร็จ 400,000 บาท, สินค้าสำเร็จรูปต้นงวด 50,000 บาท, สินค้าสำเร็จรูปปลายงวด 80,000 บาท, ค่าใช้จ่ายในการขาย 60,000 บาท, ค่าใช้จ่ายในการบริหาร 40,000 บาท กำไรขั้นต้นของบริษัทเท่ากับเท่าใด", options: ["230,000 บาท", "270,000 บาท", "200,000 บาท", "130,000 บาท"], correctIndex: 0, answerKey: "ก", calculation: "1. ต้นทุนขาย = 50,000 + 400,000 - 80,000 = 370,000 บาท\n2. กำไรขั้นต้น = ขายสุทธิ (600,000 บาท) - ต้นทุนขาย (370,000 บาท) = 230,000 บาท", explanation: "หากำไรขั้นต้นโดยนำขายสุทธิหักลบด้วยต้นทุนขาย ได้ผลลัพธ์เท่ากับ 230,000 บาท" },
+          { id: 22, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "จากข้อมูลในข้อ 21 (ขายสุทธิ 600,000 บาท, ต้นทุนสินค้าที่ผลิตเสร็จ 400,000 บาท, สินค้าสำเร็จรูปต้นงวด 50,000 บาท, สินค้าสำเร็จรูปปลายงวด 80,000 บาท, ค่าใช้จ่ายในการขาย 60,000 บาท, ค่าใช้จ่ายในการบริหาร 40,000 บาท) กำไรจากการดำเนินงานของบริษัทเท่ากับเท่าใด", options: ["230,000 บาท", "170,000 บาท", "130,000 บาท", "100,000 บาท"], correctIndex: 2, answerKey: "ค", calculation: "กำไรจากการดำเนินงาน = กำไรขั้นต้น (230,000 บาท) - ค่าใช้จ่ายในการขาย (60,000 บาท) - ค่าใช้จ่ายในการบริหาร (40,000 บาท)\n= 130,000 บาท", explanation: "กำไรจากการดำเนินงานคำนวณจากกำไรขั้นต้น หักด้วยค่าใช้จ่ายในการขายและบริหาร ได้ 130,000 บาท" },
+          { id: 23, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "ณ วันสิ้นงวด บริษัทมีข้อมูลดังนี้: วัตถุดิบคงเหลือ 45,000 บาท, งานระหว่างทำคงเหลือ 60,000 บาท, สินค้าสำเร็จรูปคงเหลือ 85,000 บาท, วัสดุสำนักงานคงเหลือ 10,000 บาท, เครื่องจักรโรงงาน 500,000 บาท สินค้าคงเหลือของกิจการผลิตที่แสดงในงบฐานะการเงินมีจำนวนเท่าใด", options: ["105,000 บาท", "190,000 บาท", "200,000 บาท", "690,000 บาท"], correctIndex: 1, answerKey: "ข", calculation: "สินค้าคงเหลือรวม = วัตถุดิบ (45,000 บาท) + งานระหว่างทำ (60,000 บาท) + สินค้าสำเร็จรูป (85,000 บาท)\n= 190,000 บาท", explanation: "สินค้าคงเหลือของกิจการผลิตประกอบด้วย 3 ส่วนคือ วัตถุดิบ, งานระหว่างทำ และสินค้าสำเร็จรูป รวมเป็น 190,000 บาท (วัสดุสำนักงานและเครื่องจักรไม่รวมเป็นสินค้าคงเหลือ)" },
+          { id: 24, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "บริษัทคำนวณสินค้าสำเร็จรูปปลายงวดสูงกว่าความเป็นจริง 20,000 บาท โดยรายการอื่นถูกต้องทั้งหมด ผลกระทบต่องบการเงินของงวดปัจจุบันข้อใดถูกต้อง หากไม่พิจารณาภาษีเงินได้", options: ["ต้นทุนขายสูงเกินไปและกำไรต่ำเกินไป 20,000 บาท", "ต้นทุนขายต่ำเกินไปและกำไรสูงเกินไป 20,000 บาท", "ต้นทุนขายและกำไรไม่เปลี่ยนแปลง", "สินทรัพย์ต่ำเกินไปและกำไรสูงเกินไป 20,000 บาท"], correctIndex: 1, answerKey: "ข", explanation: "สินค้าสำเร็จรูปปลายงวดเป็นตัวหักในการคำนวณต้นทุนขาย หากปลายงวดสูงไป จะทำให้ต้นทุนขายต่ำเกินไป และส่งผลให้กำไรสุทธิสูงเกินไป 20,000 บาท" },
+          { id: 25, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "บริษัทบันทึกค่าเสื่อมราคาเครื่องจักรโรงงาน 30,000 บาทเป็นค่าใช้จ่ายในการบริหาร แทนที่จะบันทึกเป็นค่าใช้จ่ายการผลิต หากต้นทุนจำนวนนี้ควรรวมอยู่ในสินค้าสำเร็จรูปที่ยังไม่ได้ขายทั้งหมด ผลกระทบข้อใดถูกต้อง", options: ["สินค้าคงเหลือไม่เปลี่ยนแปลง เนื่องจากค่าเสื่อมราคาเป็นค่าใช้จ่ายที่ไม่ใช้เงินสด", "สินค้าคงเหลือต่ำเกินไป 30,000 บาท และกำไรต่ำเกินไป 30,000 บาท", "ต้นทุนขายสูงเกินไป 30,000 บาท และกำไรไม่เปลี่ยนแปลง", "สินค้าคงเหลือสูงเกินไป 30,000 บาท และกำไรสูงเกินไป 30,000 บาท"], correctIndex: 1, answerKey: "ข", explanation: "ค่าเสื่อมราคาเครื่องจักรควรถูกรวมเข้าเป็นต้นทุนสินค้าสำเร็จรูป การบันทึกเป็นค่าใช้จ่ายบริหารทันทีทำให้รับรู้ค่าใช้จ่ายงวดนี้มากเกินไป ส่งผลให้กำไรต่ำไป และสินค้าคงเหลือมีมูลค่าต่ำไป 30,000 บาท" },
+          { id: 26, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "บริษัทมีต้นทุนสินค้าที่ผลิตเสร็จ 300,000 บาท และต้นทุนขาย 330,000 บาท โดยไม่มีการปรับปรุงรายการสินค้าคงเหลืออื่น ข้อใดอธิบายสถานการณ์นี้ได้ถูกต้องที่สุด", options: ["สินค้าสำเร็จรูปปลายงวดมีมูลค่าต่ำกว่าสินค้าสำเร็จรูปต้นงวด 30,000 บาท", "บริษัทขายสินค้าไม่ได้ เนื่องจากต้นทุนขายสูงกว่าต้นทุนสินค้าที่ผลิตเสร็จ", "บริษัทบันทึกต้นทุนการผลิตผิดอย่างแน่นอน", "สินค้าสำเร็จรูปปลายงวดมีมูลค่าสูงกว่าสินค้าสำเร็จรูปต้นงวด 30,000 บาท"], correctIndex: 0, answerKey: "ก", calculation: "จากสูตร: ต้นทุนขาย (330,000 บาท) = สินค้าสำเร็จรูปต้นงวด + 300,000 บาท - สินค้าสำเร็จรูปปลายงวด\nสินค้าสำเร็จรูปต้นงวด - สินค้าสำเร็จรูปปลายงวด = 30,000 บาท", explanation: "ต้นทุนขายสูงกว่าต้นทุนสินค้าที่ผลิตเสร็จ แสดงว่ามีการนำสินค้าสำเร็จรูปคงเหลือจากต้นงวดออกมาขายร่วมด้วย ทำให้สินค้าปลายงวดต่ำกว่าต้นงวด 30,000 บาท" },
+          { id: 27, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "ข้อใดแสดงลำดับการไหลของต้นทุนในกิจการผลิตได้ถูกต้อง", options: ["วัตถุดิบ → สินค้าสำเร็จรูป → งานระหว่างทำ → ต้นทุนขาย", "วัตถุดิบ → งานระหว่างทำ → สินค้าสำเร็จรูป → ต้นทุนขาย", "งานระหว่างทำ → วัตถุดิบ → ต้นทุนขาย → สินค้าสำเร็จรูป", "วัตถุดิบ → ต้นทุนขาย → งานระหว่างทำ → สินค้าสำเร็จรูป"], correctIndex: 1, answerKey: "ข", explanation: "ลำดับการไหลของต้นทุนเริ่มต้นจากการเบิกวัตถุดิบเข้าสู่กระบวนการผลิตเป็นงานระหว่างทำ เมื่อผลิตเสร็จจะโอนเป็นสินค้าสำเร็จรูป และเมื่อขายออกไปจึงรับรู้เป็นต้นทุนขาย" },
+          { id: 28, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "บริษัทมีค่าใช้จ่ายการผลิตเกิดขึ้นจริง 75,000 บาท และได้รวบรวมไว้ในบัญชีค่าใช้จ่ายการผลิตครบถ้วนแล้ว สมมติว่ากิจการโอนค่าใช้จ่ายการผลิตจริงทั้งหมดเข้าสู่บัญชีงานระหว่างทำ ข้อใดเป็นรายการบันทึกบัญชีที่ถูกต้อง", options: ["เดบิต งานระหว่างทำ 75,000 บาท เครดิต ค่าใช้จ่ายการผลิต 75,000 บาท", "เดบิต ต้นทุนขาย 75,000 บาท เครดิต ค่าใช้จ่ายการผลิต 75,000 บาท", "เดบิต สินค้าสำเร็จรูป 75,000 บาท เครดิต ค่าใช้จ่ายการผลิต 75,000 บาท", "เดบิต ค่าใช้จ่ายการผลิต 75,000 บาท เครดิต งานระหว่างทำ 75,000 บาท"], correctIndex: 0, answerKey: "ก", explanation: "เมื่อโอนค่าใช้จ่ายการผลิตเข้าสู่กระบวนการผลิต ต้องเดบิตบัญชี 'งานระหว่างทำ' และเครดิตล้างบัญชี 'ค่าใช้จ่ายการผลิต' ออก 75,000 บาท" },
+          { id: 29, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "นักบัญชีใช้ AI ช่วยจำแนกรายการต้นทุนของโรงงาน โดย AI ระบุว่า 'เงินเดือนพนักงานทุกคนในโรงงานเป็นค่าแรงงานทางตรง' นักบัญชีควรดำเนินการอย่างไร", options: ["บันทึกเงินเดือนทั้งหมดเป็นค่าใช้จ่ายในการบริหารเพื่อหลีกเลี่ยงความผิดพลาด", "ให้ AI คำนวณต้นทุนการผลิตรวมโดยไม่ต้องจำแนกค่าแรงงาน", "ตรวจสอบหน้าที่ของพนักงานและความสามารถในการติดตามต้นทุนเข้าสู่สินค้าที่ผลิตก่อนจำแนก", "ยอมรับคำตอบ เนื่องจากพนักงานทุกคนทำงานในโรงงาน"], correctIndex: 2, answerKey: "ค", explanation: "พนักงานในโรงงานมีทั้งผู้ที่ผลิตสินค้าโดยตรง (ค่าแรงงานทางตรง) และผู้สนับสนุน เช่น แม่บ้าน รปภ. ช่างซ่อมบำรุง (ค่าแรงงานทางอ้อม) จึงต้องตรวจสอบหน้าที่ก่อนจำแนก" },
+          { id: 30, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "ข้อ 20. บริษัทใช้ AI ตรวจสอบงบต้นทุนการผลิต โดย AI คำนวณได้ดังนี้: วัตถุดิบใช้ไปทั้งหมด 100,000 บาท, ค่าแรงงานทางตรง 120,000 บาท, ค่าใช้จ่ายการผลิต 60,000 บาท ต้นทุนการผลิตระหว่างงวดที่ AI คำนวณได้คือ 280,000 บาท อย่างไรก็ตาม วัตถุดิบใช้ไปทั้งหมด 100,000 บาท ประกอบด้วยวัตถุดิบทางตรง 85,000 บาท และวัตถุดิบทางอ้อม 15,000 บาท ซึ่งรวมอยู่ในค่าใช้จ่ายการผลิต 60,000 บาทแล้ว ข้อใดถูกต้องที่สุด", options: ["AI คำนวณต้นทุนการผลิตสูงเกินไป 15,000 บาท เนื่องจากนับวัตถุดิบทางอ้อมซ้ำ", "AI คำนวณต้นทุนการผลิตต่ำเกินไป 15,000 บาท เนื่องจากไม่ได้แยกวัตถุดิบทางอ้อม", "AI คำนวณถูกต้อง เพราะวัตถุดิบทางอ้อมไม่เกี่ยวข้องกับต้นทุนการผลิต", "AI คำนวณถูกต้อง เพราะวัตถุดิบใช้ไปทั้งหมดต้องรวมเป็นต้นทุนการผลิต"], correctIndex: 0, answerKey: "ก", calculation: "ต้นทุนการผลิตที่ถูกต้อง = วัตถุดิบทางตรง (85,000 บาท) + ค่าแรงงานทางตรง (120,000 บาท) + ค่าใช้จ่ายการผลิต (60,000 บาท) = 265,000 บาท\nAI คำนวณ = 100,000 + 120,000 + 60,000 = 280,000 บาท (สูงเกินไป 15,000 บาท)", explanation: "เนื่องจากในค่าใช้จ่ายการผลิต 60,000 บาทได้รวมวัตถุดิบทางอ้อม 15,000 บาทไว้แล้ว การที่ AI นำวัตถุดิบใช้ไปรวม 100,000 บาทมาบวกอีก จึงทำให้นับยอด 15,000 บาทซ้ำซ้อนสองครั้ง" }
+        ]
+      }
+    };
+
+    // ==========================================
+    // 2. LOGIC & STATE HANDLING
+    // ==========================================
+    
+    let activeChapterId = 'ch6';
+    let currentQuiz = database.ch6.questions;
+    let currentQuestionIndex = 0;
+    let userAnswers = [];
+    let flaggedQuestions = [];
+    let timerInterval = null;
+    let timerMode = 'stopwatch';
+    let feedbackMode = 'instant';
+    let secondsElapsed = 0;
+    const TOTAL_COUNTDOWN_SECONDS = 45 * 60;
+    let timeRemaining = TOTAL_COUNTDOWN_SECONDS;
+    let reviewFilter = 'all';
+
+    function initAppState(chapterId) {
+      activeChapterId = chapterId;
+      currentQuiz = database[chapterId].questions;
+      userAnswers = new Array(currentQuiz.length).fill(null);
+      flaggedQuestions = new Array(currentQuiz.length).fill(false);
+      currentQuestionIndex = 0;
+      secondsElapsed = 0;
+      timeRemaining = TOTAL_COUNTDOWN_SECONDS;
+    }
+
+    function goToHome() {
+      if(timerInterval) clearInterval(timerInterval);
+      document.getElementById('viewChapterIntro').classList.add('hidden');
+      document.getElementById('viewQuiz').classList.add('hidden');
+      document.getElementById('viewResult').classList.add('hidden');
+      document.getElementById('viewReview').classList.add('hidden');
+      document.getElementById('headerTestControls').classList.add('hidden');
+      document.getElementById('mobileBottomBar').classList.add('hidden');
+      
+      updateTabUI('home');
+      document.getElementById('viewHome').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function selectChapter(chapterId) {
+      initAppState(chapterId);
+      const chData = database[chapterId];
+      
+      // Update Banner with bright gradient
+      const introHero = document.getElementById('introHero');
+      introHero.className = `relative overflow-hidden text-white rounded-3xl p-6 sm:p-10 shadow-lg bg-gradient-to-r ${chData.gradientClass}`;
+      
+      document.getElementById('introTag').innerHTML = `${chData.icon} <span class="ml-1">${chData.title}</span>`;
+      document.getElementById('introTitle').textContent = `เตรียมสอบ ${chData.title}`;
+      document.getElementById('introDesc').textContent = chData.desc;
+      document.getElementById('introIcon').innerHTML = chData.icon;
+      document.getElementById('introSummaryContent').innerHTML = chData.summaryHTML;
+
+      document.getElementById('viewHome').classList.add('hidden');
+      document.getElementById('viewQuiz').classList.add('hidden');
+      document.getElementById('viewResult').classList.add('hidden');
+      document.getElementById('viewReview').classList.add('hidden');
+      document.getElementById('headerTestControls').classList.add('hidden');
+      document.getElementById('mobileBottomBar').classList.add('hidden');
+      
+      updateTabUI(chapterId);
+      document.getElementById('viewChapterIntro').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateTabUI(activeId) {
+      const tabs = ['home', 'ch6', 'ch7', 'ch8'];
+      tabs.forEach(tab => {
+        const el = document.getElementById(`tab-${tab}`);
+        if(el) {
+          if(tab === activeId || (activeId === 'home' && tab === 'home')) {
+            el.className = "tab-active h-full px-2 flex items-center text-sm transition font-prompt";
+          } else {
+            el.className = "tab-inactive h-full px-2 flex items-center text-sm transition font-prompt";
+          }
+        }
+      });
+    }
+
+    function startQuiz() {
+      const selTimer = document.querySelector('input[name="timerMode"]:checked');
+      if (selTimer) timerMode = selTimer.value;
+      const selFeedback = document.querySelector('input[name="feedbackMode"]:checked');
+      if (selFeedback) feedbackMode = selFeedback.value;
+
+      userAnswers = new Array(currentQuiz.length).fill(null);
+      flaggedQuestions = new Array(currentQuiz.length).fill(false);
+      currentQuestionIndex = 0;
+      secondsElapsed = 0;
+      timeRemaining = TOTAL_COUNTDOWN_SECONDS;
+
+      document.getElementById('viewChapterIntro').classList.add('hidden');
+      document.getElementById('viewQuiz').classList.remove('hidden');
+      document.getElementById('headerTestControls').classList.remove('hidden');
+      document.getElementById('mobileBottomBar').classList.remove('hidden');
+
+      initPalettes();
+      renderQuestion();
+      startTimer();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function initPalettes() {
+      const dContainer = document.getElementById('desktopPaletteContainer');
+      const mContainer = document.getElementById('mobilePaletteContainer');
+      const dScroll = document.getElementById('mobileChipsContainer');
+      
+      dContainer.innerHTML = '';
+      mContainer.innerHTML = '';
+      dScroll.innerHTML = '';
+
+      let sectionsMap = {};
+      currentQuiz.forEach((q, idx) => {
+        if(!sectionsMap[q.sectionTitle]) sectionsMap[q.sectionTitle] = [];
+        sectionsMap[q.sectionTitle].push({q, idx});
+        
+        const chip = document.createElement('button');
+        chip.id = `mobile-chip-${idx}`;
+        chip.textContent = idx + 1;
+        chip.className = "w-8 h-8 rounded-lg font-bold text-xs shrink-0 flex items-center justify-center border transition";
+        chip.onclick = () => jumpToQuestion(idx);
+        dScroll.appendChild(chip);
+      });
+
+      for (const [sectionName, items] of Object.entries(sectionsMap)) {
+        const sectionWrapper = document.createElement('div');
+        sectionWrapper.className = "mb-4";
+        sectionWrapper.innerHTML = `
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2 flex items-center justify-between">
+            <span>${sectionName}</span>
+            <span class="text-[10px] text-slate-400">${items.length} ข้อ</span>
+          </p>
+          <div class="grid grid-cols-5 gap-1.5" id="desktop-grid-${sectionName.replace(/\s+/g, '-')}"></div>
+        `;
+        dContainer.appendChild(sectionWrapper);
+
+        const mSectionWrapper = document.createElement('div');
+        mSectionWrapper.className = "mb-4";
+        mSectionWrapper.innerHTML = `
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2 flex items-center justify-between">
+            <span>${sectionName}</span>
+            <span class="text-[10px] text-slate-400">${items.length} ข้อ</span>
+          </p>
+          <div class="grid grid-cols-5 gap-1.5" id="mobile-grid-${sectionName.replace(/\s+/g, '-')}"></div>
+        `;
+        mContainer.appendChild(mSectionWrapper);
+
+        const dGrid = sectionWrapper.querySelector('div');
+        const mGrid = mSectionWrapper.querySelector('div');
+        
+        items.forEach((item) => {
+          const idx = item.idx;
+          const btn = document.createElement('button');
+          btn.id = `palette-btn-${idx}`;
+          btn.textContent = idx + 1;
+          btn.className = "w-full aspect-square rounded font-bold text-xs flex items-center justify-center border transition";
+          btn.onclick = () => jumpToQuestion(idx);
+          dGrid.appendChild(btn);
+
+          const mBtn = document.createElement('button');
+          mBtn.id = `mobile-palette-btn-${idx}`;
+          mBtn.textContent = idx + 1;
+          mBtn.className = "w-full aspect-square rounded font-bold text-xs flex items-center justify-center border transition active:scale-95";
+          mBtn.onclick = () => {
+            jumpToQuestion(idx);
+            toggleMobilePalette(false);
+          };
+          mGrid.appendChild(mBtn);
+        });
+      }
+      
+      updatePaletteUI();
+    }
+
+    function toggleMobilePalette(show) {
+      const drawer = document.getElementById('mobilePaletteDrawer');
+      if (show) drawer.classList.remove('hidden');
+      else drawer.classList.add('hidden');
+    }
+
+    function updatePaletteUI() {
+      let answeredCount = 0;
+      currentQuiz.forEach((q, idx) => {
+        const btn = document.getElementById(`palette-btn-${idx}`);
+        const mBtn = document.getElementById(`mobile-palette-btn-${idx}`);
+        const chip = document.getElementById(`mobile-chip-${idx}`);
+        
+        const isAnswered = userAnswers[idx] !== null;
+        if (isAnswered) answeredCount++;
+        const isFlagged = flaggedQuestions[idx];
+        const isCurrent = idx === currentQuestionIndex;
+
+        let style = "w-full aspect-square rounded font-bold text-xs flex items-center justify-center border transition relative ";
+        let chipStyle = "w-8 h-8 rounded-lg font-bold text-xs shrink-0 flex items-center justify-center border transition relative ";
+
+        if (isCurrent) {
+          style += "ring-2 ring-brand-500 ring-offset-1 ";
+          chipStyle += "ring-2 ring-brand-500 ring-offset-1 ";
+        }
+
+        if (isFlagged) {
+          style += "bg-amber-400 text-amber-950 border-amber-500 font-extrabold ";
+          chipStyle += "bg-amber-400 text-amber-950 border-amber-500 font-extrabold ";
+        } else if (isAnswered) {
+          if (feedbackMode === 'instant') {
+            const isCorrect = userAnswers[idx] === q.correctIndex;
+            const bgCor = isCorrect ? "bg-emerald-600 text-white border-emerald-600 " : "bg-rose-500 text-white border-rose-500 ";
+            style += bgCor;
+            chipStyle += bgCor;
+          } else {
+            style += "bg-brand-600 text-white border-brand-600 shadow-xs ";
+            chipStyle += "bg-brand-600 text-white border-brand-600 shadow-xs ";
+          }
+        } else {
+          style += "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 ";
+          chipStyle += "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-50 ";
+        }
+
+        if (btn) btn.className = style;
+        if (mBtn) mBtn.className = style;
+        if (chip) chip.className = chipStyle;
+      });
+
+      document.getElementById('answeredSummaryBadge').textContent = `ตอบแล้ว ${answeredCount}/${currentQuiz.length}`;
+      document.getElementById('mobileAnsweredBadge').textContent = `ตอบ ${answeredCount}/${currentQuiz.length}`;
+      document.getElementById('mobileQuestionTracker').textContent = `${currentQuestionIndex + 1}/${currentQuiz.length}`;
+
+      const activeChip = document.getElementById(`mobile-chip-${currentQuestionIndex}`);
+      if (activeChip && activeChip.scrollIntoView) {
+        activeChip.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+    }
+
+    function renderQuestion() {
+      const q = currentQuiz[currentQuestionIndex];
+      const hasAnswered = userAnswers[currentQuestionIndex] !== null;
+
+      const badge = document.getElementById('questionSectionBadge');
+      badge.textContent = q.sectionTitle;
+
+      document.getElementById('currentQuestionNumDisplay').textContent = q.id;
+      document.getElementById('currentQuestionTotalRatio').textContent = `${q.id} / ${currentQuiz.length}`;
+      document.getElementById('centerProgressText').textContent = `ข้อ ${q.id} / ${currentQuiz.length}`;
+      document.getElementById('questionText').innerHTML = q.text.replace(/\n/g, '<br>');
+
+      // Case Studies (Ch6)
+      const caseBox = document.getElementById('caseStudyContainer');
+      if (q.caseId && caseStudiesHTML[q.caseId]) {
+        caseBox.innerHTML = caseStudiesHTML[q.caseId];
+        caseBox.classList.remove('hidden');
+      } else {
+        caseBox.classList.add('hidden');
+        caseBox.innerHTML = '';
+      }
+
+      // Flag Button
+      const flagBtn = document.getElementById('flagBtn');
+      if (flaggedQuestions[currentQuestionIndex]) {
+        flagBtn.className = "text-xs inline-flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg border border-amber-400 bg-amber-50 text-amber-800 font-medium transition";
+        flagBtn.innerHTML = '<i class="fa-solid fa-bookmark text-amber-500"></i><span class="hidden sm:inline">ปักหมุดแล้ว</span>';
+      } else {
+        flagBtn.className = "text-xs inline-flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-100 transition";
+        flagBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i><span class="hidden sm:inline">ปักหมุด</span>';
+      }
+
+      if (feedbackMode === 'instant') {
+        document.getElementById('clearBtn').classList.add('hidden');
+      } else {
+        document.getElementById('clearBtn').classList.remove('hidden');
+      }
+
+      // Options Rendering
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+      const letters = ['ก', 'ข', 'ค', 'ง'];
+
+      q.options.forEach((optText, optIdx) => {
+        const isSelected = userAnswers[currentQuestionIndex] === optIdx;
+        const optBtn = document.createElement('div');
+        let cardStyle = "option-card p-3.5 sm:p-4 rounded-xl border flex items-start space-x-3 transition select-none ";
+        let badgeStyle = "flex items-center justify-center w-7 h-7 rounded-lg text-xs font-bold shrink-0 mt-0.5 ";
+
+        if (feedbackMode === 'instant' && hasAnswered) {
+          optBtn.classList.add('locked');
+          if (optIdx === q.correctIndex) {
+            cardStyle += "bg-emerald-50 border-emerald-500 ring-1 ring-emerald-500 text-emerald-950 font-medium ";
+            badgeStyle += "bg-emerald-600 text-white ";
+          } else if (isSelected && optIdx !== q.correctIndex) {
+            cardStyle += "bg-rose-50 border-rose-400 ring-1 ring-rose-400 text-rose-950 ";
+            badgeStyle += "bg-rose-600 text-white ";
+          } else {
+            cardStyle += "bg-white border-slate-200 opacity-60 text-slate-600 ";
+            badgeStyle += "bg-slate-100 text-slate-500 border border-slate-200 ";
+          }
+        } else {
+          cardStyle += "cursor-pointer ";
+          if (isSelected) {
+            cardStyle += "bg-brand-50 border-brand-600 ring-1 ring-brand-600 shadow-xs ";
+            badgeStyle += "bg-brand-600 text-white ";
+          } else {
+            cardStyle += "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50 ";
+            badgeStyle += "bg-slate-100 text-slate-600 border border-slate-200 ";
+          }
+        }
+
+        optBtn.className = cardStyle;
+        if (feedbackMode !== 'instant' || !hasAnswered) {
+            optBtn.onclick = () => selectOption(optIdx);
+        }
+
+        let trailingBadge = '';
+        if (feedbackMode === 'instant' && hasAnswered) {
+          if (optIdx === q.correctIndex) trailingBadge = '<span class="ml-auto text-[11px] bg-emerald-600 text-white px-2 py-0.5 rounded-md font-semibold shrink-0">คำตอบที่ถูกต้อง</span>';
+          else if (isSelected) trailingBadge = '<span class="ml-auto text-[11px] bg-rose-600 text-white px-2 py-0.5 rounded-md font-semibold shrink-0">ที่คุณเลือก</span>';
+        }
+
+        optBtn.innerHTML = `
+          <div class="${badgeStyle}">${letters[optIdx]}</div>
+          <div class="text-xs sm:text-base leading-relaxed break-words flex-1">${optText}</div>
+          ${trailingBadge}
+        `;
+        optionsContainer.appendChild(optBtn);
+      });
+
+      // Feedback Box
+      const feedbackBox = document.getElementById('instantFeedbackBox');
+      if (feedbackMode === 'instant' && hasAnswered) {
+        let calcHtml = '';
+        if (q.calculation) {
+          calcHtml = `
+            <div class="mt-2.5 p-3 rounded-lg bg-slate-100 border border-slate-200 text-xs text-slate-800 font-mono">
+              <div class="font-bold font-prompt text-slate-900 mb-1 flex items-center space-x-1.5">
+                <i class="fa-solid fa-calculator"></i><span>วิธีคำนวณอย่างละเอียด:</span>
+              </div>
+              <div class="whitespace-pre-line leading-relaxed">${q.calculation}</div>
+            </div>
+          `;
+        }
+        feedbackBox.innerHTML = `
+          <div class="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-800 space-y-2">
+            <div class="font-bold text-slate-900 flex items-center justify-between">
+              <span class="flex items-center gap-1.5 font-prompt">
+                <i class="fa-solid fa-lightbulb text-amber-500"></i> เฉลย: ข้อ ${q.answerKey}
+              </span>
+            </div>
+            <p class="leading-relaxed text-slate-700">${q.explanation}</p>
+            ${calcHtml}
+          </div>
+        `;
+        feedbackBox.classList.remove('hidden');
+      } else {
+        feedbackBox.classList.add('hidden');
+        feedbackBox.innerHTML = '';
+      }
+
+      // Buttons
+      const isFirst = currentQuestionIndex === 0;
+      const isLast = currentQuestionIndex === currentQuiz.length - 1;
+
+      const prevBtn = document.getElementById('prevBtn');
+      const mobilePrevBtn = document.getElementById('mobilePrevBtn');
+      prevBtn.disabled = isFirst;
+      mobilePrevBtn.disabled = isFirst;
+      prevBtn.classList.toggle('opacity-40', isFirst);
+      mobilePrevBtn.classList.toggle('opacity-40', isFirst);
+
+      const nextBtn = document.getElementById('nextBtn');
+      const mobileNextBtn = document.getElementById('mobileNextBtn');
+
+      if (isLast) {
+        nextBtn.innerHTML = '<span>ส่งข้อสอบ</span> <i class="fa-solid fa-flag-checkered text-[10px]"></i>';
+        nextBtn.className = "flex-1 sm:flex-initial px-5 py-2.5 bg-rose-600 hover:bg-rose-700 active:scale-95 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-xs transition flex items-center justify-center space-x-1.5";
+        nextBtn.onclick = promptSubmitQuiz;
+        mobileNextBtn.innerHTML = '<span>ส่งตรวจ</span> <i class="fa-solid fa-flag-checkered text-[10px]"></i>';
+        mobileNextBtn.onclick = promptSubmitQuiz;
+      } else {
+        nextBtn.innerHTML = '<span>ข้อถัดไป</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>';
+        nextBtn.className = "flex-1 sm:flex-initial px-5 py-2.5 bg-brand-600 hover:bg-brand-700 active:scale-95 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-xs transition flex items-center justify-center space-x-1.5";
+        nextBtn.onclick = nextQuestion;
+        mobileNextBtn.innerHTML = '<span>ข้อถัดไป</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>';
+        mobileNextBtn.onclick = nextQuestion;
+      }
+
+      updatePaletteUI();
+    }
+
+    function selectOption(optIdx) {
+      if(feedbackMode === 'instant' && userAnswers[currentQuestionIndex] !== null) return;
+      userAnswers[currentQuestionIndex] = optIdx;
+      renderQuestion();
+      
+      if (feedbackMode === 'instant' && optIdx === currentQuiz[currentQuestionIndex].correctIndex) {
+        if (typeof confetti === 'function') confetti({ particleCount: 30, spread: 50, origin: { y: 0.7 } });
+      }
+    }
+
+    function clearCurrentAnswer() {
+      userAnswers[currentQuestionIndex] = null;
+      renderQuestion();
+    }
+
+    function toggleFlagCurrentQuestion() {
+      flaggedQuestions[currentQuestionIndex] = !flaggedQuestions[currentQuestionIndex];
+      renderQuestion();
+    }
+
+    function jumpToQuestion(idx) {
+      if (idx >= 0 && idx < currentQuiz.length) {
+        currentQuestionIndex = idx;
+        renderQuestion();
+        window.scrollTo({ top: 70, behavior: 'smooth' });
+      }
+    }
+
+    function nextQuestion() {
+      if (currentQuestionIndex < currentQuiz.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+        window.scrollTo({ top: 70, behavior: 'smooth' });
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion();
+        window.scrollTo({ top: 70, behavior: 'smooth' });
+      }
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (timerMode === 'countdown') {
+          timeRemaining--;
+          secondsElapsed++;
+          if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            timeRemaining = 0;
+            finalSubmitQuiz();
+            return;
+          }
+          renderTime(timeRemaining);
+        } else {
+          secondsElapsed++;
+          renderTime(secondsElapsed);
+        }
+      }, 1000);
+    }
+
+    function renderTime(totalSec) {
+      const minutes = Math.floor(totalSec / 60);
+      const seconds = totalSec % 60;
+      document.getElementById('timerDisplay').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function promptSubmitQuiz() {
+      const answeredCount = userAnswers.filter(a => a !== null).length;
+      const unansweredCount = currentQuiz.length - answeredCount;
+
+      let msg = `คุณได้ตอบคำถามไปแล้ว <strong>${answeredCount}</strong> จากทั้งหมด ${currentQuiz.length} ข้อ`;
+      if (unansweredCount > 0) {
+        msg += `<br><span class="text-rose-600 font-semibold mt-1.5 block">ยังคงเหลือข้อที่ยังไม่ได้ตอบอีก ${unansweredCount} ข้อ!</span>`;
+      } else {
+        msg += `<br><span class="text-emerald-600 font-semibold mt-1.5 block">คุณตอบครบทุกข้อเรียบร้อยแล้ว</span>`;
+      }
+
+      document.getElementById('submitModalMessage').innerHTML = msg;
+      document.getElementById('submitModal').classList.remove('hidden');
+    }
+
+    function closeSubmitModal() {
+      document.getElementById('submitModal').classList.add('hidden');
+    }
+
+    function finalSubmitQuiz() {
+      closeSubmitModal();
+      if (timerInterval) clearInterval(timerInterval);
+
+      let totalScore = 0;
+      currentQuiz.forEach((q, idx) => {
+        if (userAnswers[idx] === q.correctIndex) totalScore++;
+      });
+
+      document.getElementById('resultScoreText').className = "text-5xl sm:text-7xl font-extrabold font-heading text-brand-600 tracking-tight";
+      document.getElementById('resultScoreText').innerHTML = `${totalScore}<span class="text-2xl sm:text-3xl text-slate-400 font-normal">/${currentQuiz.length}</span>`;
+      
+      const pct = Math.round((totalScore / currentQuiz.length) * 100);
+      let gradeFeedback = "";
+      if (pct >= 80) gradeFeedback = `${pct}% (ยอดเยี่ยมมาก เข้าใจหลักการบทนี้เป็นอย่างดี!)`;
+      else if (pct >= 60) gradeFeedback = `${pct}% (ผ่านเกณฑ์ดี ควรทบทวนการประยุกต์ใช้เพิ่มเติม)`;
+      else gradeFeedback = `${pct}% (ควรกลับไปอ่านสรุปเนื้อหาและทบทวนอย่างละเอียดอีกครั้ง)`;
+
+      document.getElementById('resultPercentageText').textContent = gradeFeedback;
+
+      document.getElementById('viewQuiz').classList.add('hidden');
+      document.getElementById('headerTestControls').classList.add('hidden');
+      document.getElementById('mobileBottomBar').classList.add('hidden');
+      document.getElementById('viewResult').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (totalScore >= (currentQuiz.length * 0.5) && typeof confetti === 'function') {
+        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+      }
+    }
+
+    function enterReviewMode() {
+      document.getElementById('viewResult').classList.add('hidden');
+      document.getElementById('viewReview').classList.remove('hidden');
+      
+      const caseBox = document.getElementById('reviewCaseStudyContainer');
+      if (activeChapterId === 'ch6') {
+        caseBox.innerHTML = caseStudiesHTML.case1 + caseStudiesHTML.case2;
+        caseBox.classList.remove('hidden');
+      } else {
+        caseBox.innerHTML = '';
+        caseBox.classList.add('hidden');
+      }
+
+      buildReviewCards();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function filterReview(mode) {
+      reviewFilter = mode;
+      const allBtn = document.getElementById('filterAllBtn');
+      const wrongBtn = document.getElementById('filterWrongBtn');
+
+      if (mode === 'all') {
+        allBtn.className = "px-3 py-1 font-medium rounded-md bg-white text-slate-800 shadow-xs";
+        wrongBtn.className = "px-3 py-1 font-medium rounded-md text-slate-600 hover:text-slate-900";
+      } else {
+        wrongBtn.className = "px-3 py-1 font-medium rounded-md bg-white text-slate-800 shadow-xs";
+        allBtn.className = "px-3 py-1 font-medium rounded-md text-slate-600 hover:text-slate-900";
+      }
+      buildReviewCards();
+    }
+
+    function buildReviewCards() {
+      const container = document.getElementById('reviewQuestionsList');
+      container.innerHTML = '';
+      const letters = ['ก', 'ข', 'ค', 'ง'];
+
+      currentQuiz.forEach((q, idx) => {
+        const userChoice = userAnswers[idx];
+        const isCorrect = userChoice === q.correctIndex;
+
+        if (reviewFilter === 'wrong' && isCorrect) return;
+
+        const card = document.createElement('div');
+        card.className = `p-4 sm:p-6 rounded-2xl border bg-white shadow-xs transition ${isCorrect ? 'border-emerald-200' : 'border-rose-200 ring-1 ring-rose-200'}`;
+
+        let choicesHTML = '';
+        q.options.forEach((optText, oIdx) => {
+          let badge = '';
+          let optStyle = 'border-slate-200 bg-slate-50/50 text-slate-700';
+
+          if (oIdx === q.correctIndex) {
+            optStyle = 'border-emerald-500 bg-emerald-50 text-emerald-950 font-medium ring-1 ring-emerald-500';
+            badge = '<span class="ml-auto text-[11px] bg-emerald-600 text-white px-2 py-0.5 rounded font-semibold shrink-0">คำตอบที่ถูกต้อง</span>';
+          } else if (oIdx === userChoice && !isCorrect) {
+            optStyle = 'border-rose-400 bg-rose-50 text-rose-950 font-medium';
+            badge = '<span class="ml-auto text-[11px] bg-rose-600 text-white px-2 py-0.5 rounded font-semibold shrink-0">ที่คุณเลือก</span>';
+          }
+
+          choicesHTML += `
+            <div class="p-2.5 sm:p-3 rounded-xl border flex items-start sm:items-center space-x-2.5 text-xs sm:text-sm ${optStyle}">
+              <span class="w-6 h-6 rounded flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 sm:mt-0 ${oIdx === q.correctIndex ? 'bg-emerald-600 text-white' : (oIdx === userChoice ? 'bg-rose-600 text-white' : 'bg-slate-200 text-slate-700')}">${letters[oIdx]}</span>
+              <span class="flex-1 break-words">${optText}</span>
+              ${badge}
+            </div>
+          `;
+        });
+
+        let calcBlock = '';
+        if (q.calculation) {
+          calcBlock = `
+            <div class="mt-3 p-3 rounded-xl bg-slate-100 border border-slate-200 text-xs text-slate-800 font-mono">
+              <div class="font-bold font-prompt text-slate-900 mb-1 flex items-center space-x-1.5">
+                <i class="fa-solid fa-calculator"></i>
+                <span>วิธีคำนวณอย่างละเอียด:</span>
+              </div>
+              <div class="whitespace-pre-line leading-relaxed">${q.calculation}</div>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-2 mb-2.5">
+            <div class="flex items-center space-x-2">
+              <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-xs font-bold ${isCorrect ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white'}">${q.id}</span>
+              <span class="text-xs font-semibold text-slate-500 truncate">${q.sectionTitle}</span>
+            </div>
+            <span class="text-xs font-bold px-2 py-0.5 rounded-full shrink-0 ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+              <i class="fa-solid ${isCorrect ? 'fa-check' : 'fa-xmark'} mr-1"></i>${isCorrect ? '+1 คะแนน' : '0 คะแนน'}
+            </span>
+          </div>
+          <div class="text-slate-900 font-medium font-prompt text-sm sm:text-base mb-3 leading-relaxed break-words">
+            ${q.text.replace(/\n/g, '<br>')}
+          </div>
+          <div class="space-y-2 mb-3">${choicesHTML}</div>
+          <div class="p-3 sm:p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs sm:text-sm leading-relaxed">
+            <div class="font-bold text-slate-900 mb-1 flex items-center space-x-1.5 font-prompt">
+              <i class="fa-solid fa-lightbulb text-amber-500"></i><span>เฉลย: ข้อ ${q.answerKey}</span>
+            </div>
+            <div class="text-slate-700">${q.explanation}</div>
+          </div>
+          ${calcBlock}
+        `;
+        container.appendChild(card);
+      });
+
+      if (container.children.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-10 bg-white rounded-2xl border border-slate-200">
+            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl mb-2">
+              <i class="fa-solid fa-trophy"></i>
+            </div>
+            <h4 class="font-bold text-slate-800 text-sm">ยอดเยี่ยมมาก! ไม่มีข้อผิดเลย</h4>
+          </div>
+        `;
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      const isQuizActive = !document.getElementById('viewQuiz').classList.contains('hidden');
+      if (!isQuizActive) return;
+
+      if (e.key === 'ArrowRight') nextQuestion();
+      else if (e.key === 'ArrowLeft') prevQuestion();
+    });
+  </script>
+</body>
+</html>
